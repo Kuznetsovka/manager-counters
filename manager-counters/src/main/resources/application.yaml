@@ -1,0 +1,34 @@
+server:
+  port: ${PORT:8090}
+  hostname: localhost
+spring:
+  application:
+    name: manager-counters
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:${DATABASE_PATH:postgresql://localhost:5432/db_ManCounters}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:123456}
+  flyway:
+    baseline-on-migrate: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, beans, mappings
+#logging:
+#  level:
+#    org.springframework.web: DEBUG
+#    org.springframework.ws: DEBUG
+
+
+
+
+
+
+
+
