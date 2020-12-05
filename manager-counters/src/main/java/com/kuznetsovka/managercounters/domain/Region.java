@@ -23,7 +23,7 @@ public class Region {
     private String title;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "tariff_id")
-    private List<Tariff> tariff;
+    private List<Tariff> tariffs;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "house_id")
     private House house;

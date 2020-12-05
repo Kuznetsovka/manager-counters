@@ -1,13 +1,11 @@
 package com.kuznetsovka.managercounters.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +23,7 @@ public class User extends Person {
     private String email;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "house_id")
-    private List<House> house;
+    private List<House> houses;
     @Enumerated(EnumType.STRING)
     private final Role role = Role.USER;
 }

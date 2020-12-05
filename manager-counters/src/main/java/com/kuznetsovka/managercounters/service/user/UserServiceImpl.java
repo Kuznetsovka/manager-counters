@@ -3,6 +3,7 @@ package com.kuznetsovka.managercounters.service.user;
 import com.kuznetsovka.managercounters.domain.Role;
 import com.kuznetsovka.managercounters.domain.User;
 import com.kuznetsovka.managercounters.dto.UserDto;
+import com.kuznetsovka.managercounters.mapper.UserMapper;
 import com.kuznetsovka.managercounters.repo.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    //private final UserMapper mapper = UserMapper.MAPPER;
+    private final UserMapper mapper = UserMapper.MAPPER;
 
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -63,6 +64,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findFirstByName(name);
     }
 
+    @Override
+    public UserDto findById(Long id) {
+        return mapper.fromUser(userRepository.getOne (id));
+    }
 
     @Override
     public void delete(Long id){

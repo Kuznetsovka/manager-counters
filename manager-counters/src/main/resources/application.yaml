@@ -6,7 +6,7 @@ spring:
     name: manager-counters
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     show-sql: true
   datasource:
     driver-class-name: org.postgresql.Driver

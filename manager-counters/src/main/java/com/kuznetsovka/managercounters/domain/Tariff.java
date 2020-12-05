@@ -31,7 +31,7 @@ public class Tariff {
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tariff_id")
-    private List<Counter> counter;
+    private List<Counter> counters;
 
 
 

@@ -1,21 +1,21 @@
 package com.kuznetsovka.managercounters.dto;
 
 import com.kuznetsovka.managercounters.domain.House;
+import com.kuznetsovka.managercounters.domain.Tariff;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-    private String name;
-    private String password;
-    private String matchingPassword;
-    private String email;
-    private List<House> houses;
+@AllArgsConstructor
+@Builder
+public class RegionDto {
+    private String title;
+    private List<Tariff> tariffs;
+    private House house;
 }

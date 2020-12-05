@@ -28,13 +28,12 @@ public class House {
     @JoinTable(name = "housesOfCompanies",
             joinColumns = @JoinColumn(name = "house_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id"))
-    private List<Company> company;
+    private List<Company> companies;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "region_id")
     private Region region;
-    private String email;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "counter_id")
-    private List<Counter> counter;
+    private List<Counter> counters;
 
 }

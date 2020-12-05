@@ -34,7 +34,7 @@ public class Counter {
     private House house;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "value_id")
-    private List<Value> value;
+    private List<Value> values;
     @UpdateTimestamp
     private LocalDateTime dateChecking;
     boolean isChecking;

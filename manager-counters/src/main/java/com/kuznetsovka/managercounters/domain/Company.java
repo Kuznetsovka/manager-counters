@@ -1,13 +1,11 @@
 package com.kuznetsovka.managercounters.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,5 +29,5 @@ public class Company extends Person {
     @JoinTable(name = "housesOfCompanies",
             joinColumns = @JoinColumn(name = "company_id"),
             inverseJoinColumns = @JoinColumn(name = "house_id"))
-    private List<House> house;
+    private List<House> houses;
 }
