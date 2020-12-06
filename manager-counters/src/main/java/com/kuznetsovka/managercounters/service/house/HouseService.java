@@ -1,4 +1,4 @@
-package com.kuznetsovka.managercounters.service.user;
+package com.kuznetsovka.managercounters.service.house;
 
 import com.kuznetsovka.managercounters.domain.House;
 import com.kuznetsovka.managercounters.domain.User;

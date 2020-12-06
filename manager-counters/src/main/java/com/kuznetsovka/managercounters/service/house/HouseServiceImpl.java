@@ -1,4 +1,4 @@
-package com.kuznetsovka.managercounters.service.user;
+package com.kuznetsovka.managercounters.service.house;
 
 import com.kuznetsovka.managercounters.domain.*;
 import com.kuznetsovka.managercounters.dto.HouseDto;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
