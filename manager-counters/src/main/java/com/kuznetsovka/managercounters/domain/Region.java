@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "regions")
+@Table(name = "tbl_regions")
 public class Region {
     private static final String SEQ_NAME = "region_seq";
     @Id
@@ -22,9 +22,6 @@ public class Region {
     private Long id;
     private String title;
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "tariff_id")
+    @JoinColumn(name = "region_id")
     private List<Tariff> tariffs;
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "house_id")
-    private House house;
 }

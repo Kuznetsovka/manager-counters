@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -58,9 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //.antMatchers("/manager").hasAnyAuthority(Role.USER.name())
+                .antMatchers("/manager").hasAnyAuthority(Role.USER.name())
                 .anyRequest().permitAll()
-                .and()
+                .and ()
                 .formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/auth")

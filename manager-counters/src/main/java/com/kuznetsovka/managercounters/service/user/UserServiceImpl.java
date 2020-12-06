@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDto> findAll() {
+        return mapper.fromUserList (userRepository.findAll());
+    }
+
+    @Override
     public UserDto findById(Long id) {
         return mapper.fromUser(userRepository.getOne (id));
     }

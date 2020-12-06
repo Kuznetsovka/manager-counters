@@ -16,5 +16,4 @@ import java.time.LocalDateTime;
 public class ValueDto {
     private BigDecimal value;
     private LocalDateTime date;
-    private Counter counter;
 }

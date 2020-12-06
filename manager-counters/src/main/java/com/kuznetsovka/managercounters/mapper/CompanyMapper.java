@@ -13,7 +13,6 @@ import java.util.List;
 public interface CompanyMapper {
     CompanyMapper MAPPER = Mappers.getMapper(CompanyMapper.class);
 
-    @Mapping(source = "houses", target = "houses")
     Company toCompany(CompanyDto dto);
     List<Company> toCompanyList(List<CompanyDto> companies);
 

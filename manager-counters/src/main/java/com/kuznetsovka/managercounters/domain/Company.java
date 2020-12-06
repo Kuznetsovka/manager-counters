@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "companies")
+@Table(name = "tbl_companies")
 public class Company extends Person {
     private static final String SEQ_NAME = "company_seq";
     @Enumerated(EnumType.STRING)
@@ -25,9 +25,7 @@ public class Company extends Person {
     private String email;
     private Long INN;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "housesOfCompanies",
-            joinColumns = @JoinColumn(name = "company_id"),
-            inverseJoinColumns = @JoinColumn(name = "house_id"))
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
     private List<House> houses;
 }

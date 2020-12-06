@@ -7,14 +7,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(uses = {HouseMapper.class})
 public interface UserMapper {
     UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(source = "houses", target = "houses")
     User toUser(UserDto dto);
+    List<User> toUserList(List<UserDto> users);
 
     @InheritInverseConfiguration
     UserDto fromUser(User user);
+    List<UserDto> fromUserList(List<User> users);
 
 }

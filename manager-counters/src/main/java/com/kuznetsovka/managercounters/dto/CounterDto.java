@@ -22,7 +22,6 @@ public class CounterDto {
     private Type type;
     private String name;
     private Tariff tariff;
-    private House house;
     private List<Value> values;
     private LocalDateTime dateChecking;
     boolean isChecking;

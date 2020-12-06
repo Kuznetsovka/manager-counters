@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "tbl_users")
 public class User extends Person {
     private static final String SEQ_NAME = "user_seq";
     @Id
@@ -22,7 +22,7 @@ public class User extends Person {
     private String password;
     private String email;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "house_id")
+    @JoinColumn(name = "user_id")
     private List<House> houses;
     @Enumerated(EnumType.STRING)
     private final Role role = Role.USER;

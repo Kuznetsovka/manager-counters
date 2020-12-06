@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "tariffs")
+@Table(name = "tbl_tariffs")
 public class Tariff {
     private static final String SEQ_NAME = "tariff_seq";
     @Id
@@ -24,15 +24,5 @@ public class Tariff {
     @Enumerated(EnumType.STRING)
     private Type type;
     private BigDecimal price;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "tariff_id")
-    private Region region;
-
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "tariff_id")
-    private List<Counter> counters;
-
-
 
 }

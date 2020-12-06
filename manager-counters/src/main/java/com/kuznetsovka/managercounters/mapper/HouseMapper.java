@@ -9,12 +9,10 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {CounterMapper.class,RegionMapper.class})
+@Mapper(uses = {CompanyMapper.class})
 public interface HouseMapper {
     HouseMapper MAPPER = Mappers.getMapper(HouseMapper.class);
 
-    @Mapping(source = "counters", target = "counters")
-    @Mapping(source = "region", target = "region")
     House toHouse(HouseDto dto);
     List<House> toHouseList(List<HouseDto> houses);
     @InheritInverseConfiguration

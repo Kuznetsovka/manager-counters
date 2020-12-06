@@ -18,9 +18,7 @@ import java.util.List;
 @Builder
 public class HouseDto {
     private String address;
-    private User user;
-    private List<Company> companies;
-    private Region region;
-    private List<Counter> counters;
+    private int region_id;
+    private int countCounter;
 
 }

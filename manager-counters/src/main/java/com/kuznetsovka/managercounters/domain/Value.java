@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "values")
+@Table(name = "tbl_values")
 public class Value {
     private static final String SEQ_NAME = "value_seq";
     @Id
@@ -25,9 +25,4 @@ public class Value {
     private BigDecimal value;
     @UpdateTimestamp
     private LocalDateTime date;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "counter_id")
-    private Counter counter;
-
-
 }

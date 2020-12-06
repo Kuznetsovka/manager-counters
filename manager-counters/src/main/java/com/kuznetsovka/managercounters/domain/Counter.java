@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "counters")
+@Table(name = "tbl_counters")
 public class Counter {
     private static final String SEQ_NAME = "counter_seq";
     @Id
@@ -26,14 +26,11 @@ public class Counter {
     @Enumerated(EnumType.STRING)
     private Type type;
     private String name;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "house_id")
-    private House house;
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "value_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "counter_id")
     private List<Value> values;
     @UpdateTimestamp
     private LocalDateTime dateChecking;

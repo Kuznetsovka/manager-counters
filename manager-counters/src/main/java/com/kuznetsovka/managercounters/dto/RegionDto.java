@@ -17,5 +17,4 @@ import java.util.List;
 public class RegionDto {
     private String title;
     private List<Tariff> tariffs;
-    private House house;
 }

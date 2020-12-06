@@ -4,6 +4,7 @@ import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
 import com.kuznetsovka.managercounters.dto.Measurement;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
 import com.kuznetsovka.managercounters.factory.PowerValueFactory;
+import com.kuznetsovka.managercounters.service.SessionObjectHolder;
 import com.kuznetsovka.managercounters.service.value.ValueService;
 import com.kuznetsovka.managercounters.service.value.ValueServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainController {
-    ValueService valueService;
+    private final SessionObjectHolder sessionObjectHolder;
+
+    public MainController(SessionObjectHolder sessionObjectHolder) {
+        this.sessionObjectHolder = sessionObjectHolder;
+    }
+
     @RequestMapping({"","/"})
-    public String index(Measurement dto, Model model){
-        valueService = new ValueServiceImpl (new PowerValueFactory ());
-        model.addAttribute("manager", dto);
-        System.out.println(valueService.showValueInfo ());
+    public String index(){
         return "manager";
     }
 
@@ -34,7 +37,6 @@ public class MainController {
         model.addAttribute("loginError", true);
         return "login";
     }
-
     @ExceptionHandler
     public ResponseEntity<EntityNotFoundResponse> handleException(EntityNotFoundException ex){
         EntityNotFoundResponse response = new EntityNotFoundResponse();

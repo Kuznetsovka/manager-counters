@@ -13,7 +13,6 @@ import java.util.List;
 public interface CounterMapper {
     ValueMapper MAPPER = Mappers.getMapper(ValueMapper.class);
 
-    @Mapping(source = "values", target = "values")
     Counter toCounter(CounterDto dto);
     List<Counter> toCounterList(List<CounterDto> counters);
     @InheritInverseConfiguration

@@ -19,7 +19,5 @@ import java.util.List;
 public class TariffDto {
     private Type type;
     private BigDecimal price;
-    private Region region;
-    private List<Counter> counters;
 
 }

@@ -1,5 +1,6 @@
 package com.kuznetsovka.managercounters.domain;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "houses")
+@Table(name = "tbl_houses")
 public class House {
     private static final String SEQ_NAME = "house_seq";
     @Id
@@ -21,19 +22,11 @@ public class House {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     private String address;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id")
-    private User user;
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "housesOfCompanies",
-            joinColumns = @JoinColumn(name = "house_id"),
-            inverseJoinColumns = @JoinColumn(name = "company_id"))
-    private List<Company> companies;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "region_id")
     private Region region;
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "counter_id")
+    @JoinColumn(name = "house_id")
     private List<Counter> counters;
 
 }
