@@ -13,6 +13,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
+@Mapper
 public interface TariffMapper {
     TariffMapper MAPPER = Mappers.getMapper(TariffMapper.class);
     Tariff toTariff(TariffDto dto);

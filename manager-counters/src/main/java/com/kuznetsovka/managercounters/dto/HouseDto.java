@@ -18,7 +18,8 @@ import java.util.List;
 @Builder
 public class HouseDto {
     private String address;
-    private int region_id;
+    private Region region;
+    private Integer region_id;
+    private List<Counter> counters;
     private int countCounter;
-
 }
