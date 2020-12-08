@@ -17,9 +17,9 @@ import java.util.List;
 public interface TariffMapper {
     TariffMapper MAPPER = Mappers.getMapper(TariffMapper.class);
     Tariff toTariff(TariffDto dto);
-    List<Tariff> toTariffList(List<TariffDto> tariffs);
+
     @InheritInverseConfiguration
     TariffDto fromTariff(Tariff tariff);
-    List<TariffDto> fromTariffList(List<Tariff> tariffs);
+
 
 }

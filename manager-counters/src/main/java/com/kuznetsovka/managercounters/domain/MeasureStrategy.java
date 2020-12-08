@@ -1,6 +1,8 @@
-package com.kuznetsovka.managercounters.dto;
+package com.kuznetsovka.managercounters.domain;
 
-public interface Measure {
+import org.springframework.stereotype.Component;
+
+public interface MeasureStrategy {
     /**
      * Выводит информацию единицу измерения значения
      * @return единицу измерения

@@ -5,5 +5,6 @@ import com.kuznetsovka.managercounters.domain.Region;
 import com.kuznetsovka.managercounters.domain.Tariff;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RegionRepository extends JpaRepository<Tariff, Long> {
+public interface RegionRepository extends JpaRepository<Region, Long> {
+    Region findFirstByTitle(String title);
 }

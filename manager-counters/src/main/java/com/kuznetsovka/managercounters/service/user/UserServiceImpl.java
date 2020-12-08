@@ -1,6 +1,5 @@
 package com.kuznetsovka.managercounters.service.user;
 
-import com.kuznetsovka.managercounters.domain.Role;
 import com.kuznetsovka.managercounters.domain.User;
 import com.kuznetsovka.managercounters.dto.UserDto;
 import com.kuznetsovka.managercounters.mapper.UserMapper;
@@ -32,10 +31,9 @@ public class UserServiceImpl implements UserService {
     }
     private void InitBDUser() {
         if (!userRepository.existsById ((long) 1)) {
-            userRepository.saveAll (Arrays.asList (
-                    new User (null, "Kirill", passwordEncoder.encode ("pass"), "mail@gmail.com", null),
-                    new User (null, "DP", passwordEncoder.encode ("pass"), "test@gmail.com", null)
-            ));
+            userRepository.save (
+                    new User (null, "Kirill", passwordEncoder.encode ("pass"), "mail@gmail.com", null)
+            );
         }
     }
 
@@ -62,11 +60,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByName(String name) {
         return userRepository.findFirstByName(name);
-    }
-
-    @Override
-    public List<UserDto> findAll() {
-        return mapper.fromUserList (userRepository.findAll());
     }
 
     @Override

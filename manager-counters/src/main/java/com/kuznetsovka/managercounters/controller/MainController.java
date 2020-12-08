@@ -1,12 +1,8 @@
 package com.kuznetsovka.managercounters.controller;
 
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
-import com.kuznetsovka.managercounters.dto.Measurement;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
-import com.kuznetsovka.managercounters.factory.PowerValueFactory;
 import com.kuznetsovka.managercounters.service.SessionObjectHolder;
-import com.kuznetsovka.managercounters.service.value.ValueService;
-import com.kuznetsovka.managercounters.service.value.ValueServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

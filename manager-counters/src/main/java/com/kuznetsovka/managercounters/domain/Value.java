@@ -1,5 +1,6 @@
 package com.kuznetsovka.managercounters.domain;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +26,9 @@ public class Value {
     private BigDecimal value;
     @UpdateTimestamp
     private LocalDateTime date;
+//    MeasureStrategy measureStrategy;
+//
+//    public void getMeasure(){
+//        measureStrategy.getMeasure ();
+//    }
 }

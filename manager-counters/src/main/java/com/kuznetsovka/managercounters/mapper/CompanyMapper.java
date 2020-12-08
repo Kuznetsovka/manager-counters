@@ -15,10 +15,8 @@ public interface CompanyMapper {
 
     @Mapping(source = "houses", target = "houses")
     Company toCompany(CompanyDto dto);
-    List<Company> toCompanyList(List<CompanyDto> companies);
 
     @InheritInverseConfiguration
     CompanyDto fromCompany(Company company);
-    List<CompanyDto> fromCompanyList(List<Company> companies);
 
 }
