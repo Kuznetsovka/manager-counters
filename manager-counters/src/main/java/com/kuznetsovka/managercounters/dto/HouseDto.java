@@ -21,5 +21,7 @@ public class HouseDto {
     private Region region;
     private Integer region_id;
     private List<Counter> counters;
+    private User user;
+    private Company company;
     private int countCounter;
 }

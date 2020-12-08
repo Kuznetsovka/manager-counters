@@ -1,26 +1,42 @@
 package com.kuznetsovka.managercounters.service.value;
 
-import com.kuznetsovka.managercounters.dto.Measurement;
-import com.kuznetsovka.managercounters.factory.PowerValueFactory;
-import com.kuznetsovka.managercounters.factory.ValueFactory;
+import com.kuznetsovka.managercounters.domain.Counter;
+import com.kuznetsovka.managercounters.domain.Type;
+import com.kuznetsovka.managercounters.domain.Value;
+import com.kuznetsovka.managercounters.domain.ValuePower;
+import com.kuznetsovka.managercounters.dto.ValueDto;
+import com.kuznetsovka.managercounters.mapper.ValueMapper;
+import com.kuznetsovka.managercounters.repo.ValueRepository;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
+@Service
 public class ValueServiceImpl implements ValueService {
-    private ValueFactory factory;
+    private final ValueRepository valueRepository;
+    private final ValueMapper mapper = ValueMapper.MAPPER;
 
-    public ValueServiceImpl(ValueFactory factory) {
-        this.factory = factory;
+    public ValueServiceImpl(ValueRepository valueRepository) {
+        this.valueRepository = valueRepository;
     }
 
-    public static void main(String[] args) {
-        ValueService valueService = new ValueServiceImpl(new PowerValueFactory ());
-        System.out.println(valueService.showValueInfo ());
+    public void create(BigDecimal val) {
+        Value value = new ValuePower ();
+        Value.builder()
+            .value (val)
+            .build ();
+        //System.out.println (value.getMeasureStrategy ().getMeasure ());
+        valueRepository.save (value);
     }
+
     @Override
-    public String showValueInfo() {
-        Measurement dtoValue = factory.createValue (BigDecimal.valueOf (101), LocalDateTime.now (),null);
-        return dtoValue.getMeasure ();
+    @Transactional
+    public boolean save(ValueDto dto) {
+        valueRepository.save(mapper.toValue (dto));
+        return true;
     }
 }

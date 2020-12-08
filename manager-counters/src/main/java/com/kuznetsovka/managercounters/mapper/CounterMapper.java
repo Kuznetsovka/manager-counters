@@ -9,12 +9,13 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {ValueMapper.class,TariffMapper.class})
+@Mapper(uses = {ValueMapper.class,TariffMapper.class,HouseMapper.class})
 public interface CounterMapper {
-    ValueMapper MAPPER = Mappers.getMapper(ValueMapper.class);
+    CounterMapper MAPPER = Mappers.getMapper(CounterMapper.class);
 
     @Mapping(source = "values", target = "values")
     @Mapping(source = "tariff", target = "tariff")
+    @Mapping(source = "house", target = "house")
     Counter toCounter(CounterDto dto);
     List<Counter> toCounterList(List<CounterDto> counters);
     @InheritInverseConfiguration

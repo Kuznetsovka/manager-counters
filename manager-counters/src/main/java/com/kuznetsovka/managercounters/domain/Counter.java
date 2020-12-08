@@ -32,6 +32,9 @@ public class Counter {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "counter_id")
     private List<Value> values;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "house_id")
+    private House house;
     @UpdateTimestamp
     private LocalDateTime dateChecking;
     boolean isChecking;

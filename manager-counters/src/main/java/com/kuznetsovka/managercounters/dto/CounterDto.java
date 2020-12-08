@@ -21,6 +21,7 @@ import java.util.List;
 public class CounterDto {
     private Type type;
     private String name;
+    private House house;
     private Tariff tariff;
     private List<Value> values;
     private LocalDateTime dateChecking;

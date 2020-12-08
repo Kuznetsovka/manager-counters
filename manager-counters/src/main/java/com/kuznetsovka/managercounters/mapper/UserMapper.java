@@ -15,10 +15,8 @@ public interface UserMapper {
 
     @Mapping(source = "houses", target = "houses")
     User toUser(UserDto dto);
-    List<User> toUserList(List<UserDto> users);
 
     @InheritInverseConfiguration
     UserDto fromUser(User user);
-    List<UserDto> fromUserList(List<User> users);
 
 }

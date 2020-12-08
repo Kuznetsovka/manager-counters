@@ -1,44 +1,36 @@
 package com.kuznetsovka.managercounters.service.house;
 
-import com.kuznetsovka.managercounters.domain.*;
+import com.kuznetsovka.managercounters.domain.Counter;
+import com.kuznetsovka.managercounters.domain.House;
+import com.kuznetsovka.managercounters.domain.Region;
 import com.kuznetsovka.managercounters.dto.HouseDto;
 import com.kuznetsovka.managercounters.mapper.HouseMapper;
-import com.kuznetsovka.managercounters.repo.CounterRepository;
 import com.kuznetsovka.managercounters.repo.HouseRepository;
-import com.kuznetsovka.managercounters.repo.UserRepository;
+import com.kuznetsovka.managercounters.service.counter.CounterServiceImpl;
+import com.kuznetsovka.managercounters.service.mediator.Mediator;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class HouseServiceImpl implements HouseService {
     private final HouseMapper mapper = HouseMapper.MAPPER;
+    private final Mediator mediator;
     private final HouseRepository houseRepository;
-    private final CounterRepository counterRepository;
-    private final UserRepository userRepository;
 
-    public HouseServiceImpl(HouseRepository houseRepository, CounterRepository counterRepository, UserRepository userRepository) {
+    public HouseServiceImpl(Mediator mediator, HouseRepository houseRepository) {
+        this.mediator = mediator;
         this.houseRepository = houseRepository;
-        this.counterRepository = counterRepository;
-        this.userRepository = userRepository;
         InitBDUser();
     }
     //Пока костыль.
     private void InitBDUser() {
         if (!houseRepository.existsById ((long) 1)) {
-            List counters= Arrays.asList (
-                    new Counter (null,Type.HOT_WATER,"1",null,null,LocalDateTime.now (),true),
-                    new Counter (null,Type.COLD_WATER,"2",null,null,LocalDateTime.now (),true),
-                    new Counter (null,Type.ELECTRICITY,"1",null,null,LocalDateTime.now (),true)
-            );
-            counterRepository.saveAll (counters);
             House house = House.builder()
                     .address("г. Балашиха, ул. Заречная, д. 40, кв. 40")
                     .region (new Region())
-                    .counters (counters)
                     .build();
             houseRepository.save (house);
         }
