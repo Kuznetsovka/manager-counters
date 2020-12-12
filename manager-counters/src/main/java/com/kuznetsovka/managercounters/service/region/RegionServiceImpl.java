@@ -11,6 +11,7 @@ import com.kuznetsovka.managercounters.repo.TariffRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class RegionServiceImpl implements RegionService {
@@ -22,20 +23,8 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    @Transactional
-    public boolean save(RegionDto regionDto) {
-        regionRepository.save(mapper.toRegion (regionDto));
-        return true;
-    }
-
-    @Override
-    public Region getById(Long id) {
-        return regionRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public Region findByTitle(String title) {
-        return regionRepository.findFirstByTitle(title);
+    public RegionDto findByTitle(String title) {
+        return mapper.fromRegion (regionRepository.findFirstByTitle(title));
     }
 
     @Override
@@ -44,12 +33,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public void delete(Long id){
-        regionRepository.deleteById (id);
-    }
-
-    @Override
-    public void save(Region region) {
-        regionRepository.save(region);
+    public List<RegionDto> getAll() {
+        return mapper.fromRegionList (regionRepository.findAll());
     }
 }

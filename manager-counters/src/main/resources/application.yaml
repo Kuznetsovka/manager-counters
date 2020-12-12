@@ -6,7 +6,7 @@ spring:
     name: manager-counters
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: true
   datasource:
      name: 'dataManager'

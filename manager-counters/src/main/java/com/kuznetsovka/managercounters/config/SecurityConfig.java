@@ -1,6 +1,7 @@
 package com.kuznetsovka.managercounters.config;
 
 import com.kuznetsovka.managercounters.domain.Role;
+import com.kuznetsovka.managercounters.service.company.CompanyService;
 import com.kuznetsovka.managercounters.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -29,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private ApplicationContext applicationContext;
     private UserService userService;
+    private CompanyService companyService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -52,6 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private void initUserService(){
         if(userService == null){
             userService = applicationContext.getBean(UserService.class);
+        }
+        if(companyService == null){
+            companyService = applicationContext.getBean(CompanyService.class);
         }
     }
 

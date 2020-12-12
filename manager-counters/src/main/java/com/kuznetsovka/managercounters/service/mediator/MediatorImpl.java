@@ -1,13 +1,16 @@
 package com.kuznetsovka.managercounters.service.mediator;
 
 import com.kuznetsovka.managercounters.domain.Counter;
-import com.kuznetsovka.managercounters.domain.Type;
+import com.kuznetsovka.managercounters.domain.Tariff;
+import com.kuznetsovka.managercounters.dto.CounterDto;
+import com.kuznetsovka.managercounters.dto.HouseDto;
+import com.kuznetsovka.managercounters.dto.TariffDto;
 import com.kuznetsovka.managercounters.service.company.CompanyServiceImpl;
 import com.kuznetsovka.managercounters.service.counter.CounterServiceImpl;
 import com.kuznetsovka.managercounters.service.house.HouseServiceImpl;
-import com.kuznetsovka.managercounters.service.region.RegionServiceImpl;
+import com.kuznetsovka.managercounters.service.region.RegionServiceProxy;
 import com.kuznetsovka.managercounters.service.tariff.TariffServiceImpl;
-import com.kuznetsovka.managercounters.service.user.UserService;
+import com.kuznetsovka.managercounters.service.tariff.TariffServiceJdbcProxy;
 import com.kuznetsovka.managercounters.service.user.UserServiceImpl;
 import com.kuznetsovka.managercounters.service.value.ValueServiceImpl;
 import lombok.AllArgsConstructor;
@@ -15,11 +18,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -29,9 +29,9 @@ import java.util.List;
 @Component
 public class MediatorImpl implements Mediator {
     private ValueServiceImpl valueService;
+    private RegionServiceProxy regionService;
     private CounterServiceImpl counterService;
-    private TariffServiceImpl tariffService;
-    private RegionServiceImpl regionService;
+    private TariffServiceJdbcProxy tariffService;
     private HouseServiceImpl houseService;
     private UserServiceImpl userService;
     private CompanyServiceImpl companyService;
@@ -47,8 +47,9 @@ public class MediatorImpl implements Mediator {
     }
 
     @Override
-    public void addHouse() {
-
+    public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDto, Long regionID, String name) {
+        List<Tariff> tariffs = tariffService.findById (regionID);
+        return false;
     }
 
     @Override

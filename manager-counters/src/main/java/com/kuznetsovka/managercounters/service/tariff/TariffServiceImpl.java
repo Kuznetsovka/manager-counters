@@ -2,6 +2,7 @@ package com.kuznetsovka.managercounters.service.tariff;
 
 import com.kuznetsovka.managercounters.domain.Company;
 import com.kuznetsovka.managercounters.domain.Tariff;
+import com.kuznetsovka.managercounters.domain.Type;
 import com.kuznetsovka.managercounters.dto.CompanyDto;
 import com.kuznetsovka.managercounters.dto.TariffDto;
 import com.kuznetsovka.managercounters.mapper.CompanyMapper;
@@ -34,8 +35,8 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public Tariff findByName(String name) {
-        return tariffRepository.findFirstByType(name);
+    public Tariff findByType(Type type) {
+        return tariffRepository.findFirstByType(type);
     }
 
     @Override

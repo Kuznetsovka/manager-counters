@@ -25,8 +25,8 @@ public class House {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "region_id")
     private Region region;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "house_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "house")
+//    @JoinColumn(name = "house_id")
     private List<Counter> counters;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
