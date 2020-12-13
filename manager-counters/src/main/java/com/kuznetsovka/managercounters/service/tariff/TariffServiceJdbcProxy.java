@@ -29,7 +29,7 @@ public class TariffServiceJdbcProxy {
         for (Long key : regionListCache.keySet ()) {
             if (key==id) return regionListCache.get (id);
         }
-        return null;
+        return regionListCache.get (id);
     }
 
 }

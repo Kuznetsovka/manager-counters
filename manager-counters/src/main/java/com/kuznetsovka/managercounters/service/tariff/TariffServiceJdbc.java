@@ -20,13 +20,13 @@ public class TariffServiceJdbc {
 
     public List<Tariff> findById(Long id) {
         List<ViewTariffs> view = jdbcTemplate.query(
-                "select t.price, t.type, t.status" +
-                        " from tariff t" +
+                "select t.price, t.type" +
+                        " from tariff t " +
                         "join region r on r.id = t.region_id" +
                         "where r.id = ?",
                 (r, i) -> ViewTariffs.builder()
                         .tariff_id (r.getLong (1))
-                        .type (Type.COLD_WATER.getTypeByTxt(r.getString (2)))
+                        .type (Type.getTypeByTxt(r.getString (2)))
                         .price (r.getBigDecimal (3))
                         .build(),
                 id
