@@ -3,6 +3,7 @@ package com.kuznetsovka.managercounters.service.house;
 import com.kuznetsovka.managercounters.domain.Counter;
 import com.kuznetsovka.managercounters.domain.House;
 import com.kuznetsovka.managercounters.domain.Region;
+import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.HouseDto;
 import com.kuznetsovka.managercounters.dto.RegionDto;
 import com.kuznetsovka.managercounters.mapper.HouseMapper;

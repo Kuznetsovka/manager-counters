@@ -60,4 +60,13 @@ public class CounterServiceImpl implements CounterService {
     public Counter getById(Long id) {
         return null;
     }
+
+    @Override
+    public Counter getCounterByDto(CounterDto counterDto) {
+        return mapper.toCounter (counterDto);
+    }
+
+    public List<Counter> getCounterByDto(List<CounterDto> counterDtoList) {
+        return mapper.toCounterList (counterDtoList);
+    }
 }

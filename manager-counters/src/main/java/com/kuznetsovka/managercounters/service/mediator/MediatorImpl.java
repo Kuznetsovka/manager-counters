@@ -5,6 +5,7 @@ import com.kuznetsovka.managercounters.domain.Tariff;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.HouseDto;
 import com.kuznetsovka.managercounters.dto.TariffDto;
+import com.kuznetsovka.managercounters.registry.Registry;
 import com.kuznetsovka.managercounters.service.company.CompanyServiceImpl;
 import com.kuznetsovka.managercounters.service.counter.CounterServiceImpl;
 import com.kuznetsovka.managercounters.service.house.HouseServiceImpl;
@@ -47,9 +48,22 @@ public class MediatorImpl implements Mediator {
     }
 
     @Override
-    public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDto, Long regionID, String name) {
+    public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDtoList, Long regionID, String name) {
         List<Tariff> tariffs = tariffService.findById (regionID);
-        return false;
+
+        List<Counter> counters = Registry.getInstance ().getUnitOfWork ().getNewCounters ();
+        for (Counter counter : counters) {
+            for (Tariff tariff : tariffs) {
+                if(counter.getType ().equals (tariff.getType ())){
+                    counter.setTariff (tariff);
+                }
+            }
+        }
+        houseDto.setCounters (counters);
+        houseDto.setRegion (regionService.findById (regionID));
+        houseService.save (houseDto);
+        Registry.getInstance ().getUnitOfWork ().getCurrent().commit();
+        return true;
     }
 
     @Override

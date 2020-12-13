@@ -75,6 +75,10 @@ public class UnitOfWork {
         dirtyCounters.add(counter);
     }
 
+    public List<Counter> getNewCounters() {
+        return newCounters;
+    }
+
     /**
      * регистрация удаленных из бд сущностей
      * @param counter

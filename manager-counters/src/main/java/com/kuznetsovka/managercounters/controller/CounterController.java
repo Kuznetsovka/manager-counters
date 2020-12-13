@@ -3,8 +3,11 @@ package com.kuznetsovka.managercounters.controller;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
 import com.kuznetsovka.managercounters.dto.HouseDto;
-import com.kuznetsovka.managercounters.dto.RegionDto;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
+import com.kuznetsovka.managercounters.registry.IdentityMap;
+import com.kuznetsovka.managercounters.registry.Registry;
+import com.kuznetsovka.managercounters.registry.UnitOfWork;
+import com.kuznetsovka.managercounters.service.counter.CounterService;
 import com.kuznetsovka.managercounters.service.house.HouseService;
 import com.kuznetsovka.managercounters.service.mediator.Mediator;
 import com.kuznetsovka.managercounters.service.region.RegionServiceProxy;
@@ -16,7 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,15 +29,25 @@ public class CounterController {
     private final UserService userService;
     private final HouseService houseService;
     private final RegionServiceProxy regionService;
-    private List<CounterDto> list = new LinkedList<> ();
+    private final CounterService counterService;
     private HouseDto newHouse;
+    private List<CounterDto> list = new ArrayList<> ();
     private Long regionId;
-    public CounterController(Mediator mediator, UserService userService, HouseService houseService, RegionServiceProxy regionService) {
+    public CounterController(Mediator mediator, UserService userService, HouseService houseService, RegionServiceProxy regionService, CounterService counterService) {
         this.mediator = mediator;
         this.userService = userService;
         this.houseService = houseService;
         this.regionService = regionService;
+        this.counterService = counterService;
     }
+
+    @GetMapping
+    public String userList(Model model){
+        model.addAttribute("counters", list);
+        return "addCounter";
+    }
+
+
     @PostMapping("/newCounters")
     public String newCounter(Model model,
                              HouseDto houseDto,
@@ -42,27 +55,33 @@ public class CounterController {
         System.out.println("Called method newCounter");
         regionId = regionID;
         newHouse = houseDto;
-        for (int i = 0; i < houseDto.getCountCounter (); i++) {
-            list.add (new CounterDto ());
-        }
-        model.addAttribute("counters", list);
+        Registry.getInstance ().getIdentityMap ().init();
+        model.addAttribute("counter", new CounterDto ());
         return "addCounter";
     }
-    @GetMapping("/newCounters")
-    public String getNewCounter(Model model){
-        return "addHouse";
-    }
+//    @GetMapping("/newCounters")
+//    public String getNewCounter(Model model){
+//        model.addAttribute("counters", list);
+//        return "addHouse";
+//    }
 
-    @PostMapping(value = "/saveCounters")
-    public String saveCounter(Model model,
-                              @RequestParam(name = "listCounters")  List<CounterDto> listCounterDto,
-                              Principal principal){
-        if(mediator.addHouse (newHouse,listCounterDto,regionId,principal.getName ())){
+    @PostMapping(value = "/continue")
+    public String continueAddHouse(Model model, Principal principal){
+        if(mediator.addHouse (newHouse,list,regionId,principal.getName ())){
             return "redirect:/manager";
         } else {
             model.addAttribute("counters", list);
             return "addCounter";
         }
+    }
+
+    @PostMapping(value = "/saveCounter")
+    public String addCounter(Model model,  CounterDto counterDto, Principal principal){
+        list.add(counterDto);
+        //Registry.getInstance ().getIdentityMap ().getCurrent ().add (counterService.getCounterByDto(counterDto));
+        model.addAttribute("counters", list);
+        model.addAttribute("counter", new CounterDto ());
+        return "addCounter";
     }
 
     @ExceptionHandler

@@ -12,5 +12,5 @@ public interface CounterService {
     void delete(Long id);
     void save(Counter counter);
     Counter getById(Long id);
-
+    Counter getCounterByDto(CounterDto counterDto);
 }

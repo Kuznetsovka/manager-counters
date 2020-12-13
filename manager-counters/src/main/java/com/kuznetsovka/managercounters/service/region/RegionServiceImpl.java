@@ -23,17 +23,22 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public RegionDto findByTitle(String title) {
-        return mapper.fromRegion (regionRepository.findFirstByTitle(title));
+    public Region findByTitle(String title) {
+        return regionRepository.findFirstByTitle(title);
     }
 
     @Override
-    public RegionDto findById(Long id) {
-        return mapper.fromRegion (regionRepository.getOne (id));
+    public Region findById(Long id) {
+        return regionRepository.getOne (id);
     }
 
     @Override
-    public List<RegionDto> getAll() {
-        return mapper.fromRegionList (regionRepository.findAll());
+    public List<Region> getAll() {
+        return regionRepository.findAll();
+    }
+
+    @Override
+    public List<RegionDto> getListDto(List<Region> regions) {
+        return mapper.fromRegionList (regions);
     }
 }

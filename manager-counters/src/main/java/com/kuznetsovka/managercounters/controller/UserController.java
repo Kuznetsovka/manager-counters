@@ -1,5 +1,6 @@
 package com.kuznetsovka.managercounters.controller;
 
+import com.kuznetsovka.managercounters.domain.Region;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
 import com.kuznetsovka.managercounters.dto.HouseDto;
@@ -37,8 +38,8 @@ public class UserController {
     public String newHouse(Model model){
         System.out.println("Called method newHouse");
         model.addAttribute("house", new HouseDto ());
-        List<RegionDto> regions = regionService.getAll ();
-        model.addAttribute("regions", regions);
+        List<Region> regions = regionService.getAll ();
+        model.addAttribute("regions", regionService.getListDto(regions));
         return "addHouse";
     }
 

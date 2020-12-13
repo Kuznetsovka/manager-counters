@@ -8,7 +8,8 @@ import com.kuznetsovka.managercounters.dto.TariffDto;
 import java.util.List;
 
 public interface RegionService {
-    RegionDto findByTitle(String title);
-    RegionDto findById(Long id);
-    List<RegionDto> getAll();
+    Region findByTitle(String title);
+    Region findById(Long id);
+    List<Region> getAll();
+    List<RegionDto> getListDto(List<Region> regions);
 }
