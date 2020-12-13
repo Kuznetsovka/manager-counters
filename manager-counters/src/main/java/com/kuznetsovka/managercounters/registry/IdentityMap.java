@@ -1,9 +1,6 @@
 package com.kuznetsovka.managercounters.registry;
 
 import com.kuznetsovka.managercounters.domain.Counter;
-import com.kuznetsovka.managercounters.domain.House;
-import com.kuznetsovka.managercounters.domain.Type;
-
 import java.util.HashMap;
 import java.util.Map;
 

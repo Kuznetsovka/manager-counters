@@ -50,19 +50,20 @@ public class MediatorImpl implements Mediator {
     @Override
     public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDtoList, Long regionID, String name) {
         List<Tariff> tariffs = tariffService.findById (regionID);
-
-        List<Counter> counters = Registry.getInstance ().getUnitOfWork ().getNewCounters ();
+        List<Counter> counters = counterService.getCounterByDto (counterDtoList);
         for (Counter counter : counters) {
             for (Tariff tariff : tariffs) {
                 if(counter.getType ().equals (tariff.getType ())){
                     counter.setTariff (tariff);
+                    counterService.save (counter);
+
                 }
             }
         }
         houseDto.setCounters (counters);
+        houseDto.setUser (userService.findByName(name));
         houseDto.setRegion (regionService.findById (regionID));
         houseService.save (houseDto);
-        Registry.getInstance ().getUnitOfWork ().getCurrent().commit();
         return true;
     }
 

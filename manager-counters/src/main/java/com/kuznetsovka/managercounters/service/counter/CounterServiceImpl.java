@@ -21,16 +21,6 @@ public class CounterServiceImpl implements CounterService {
         this.counterRepository = counterRepository;
     }
 
-    public List<Counter> create() {
-        List counters= Arrays.asList (
-                new Counter (null, Type.HOT_WATER,"1",null,null, null,LocalDateTime.now (),true),
-                new Counter (null,Type.COLD_WATER,"2",null,null, null,LocalDateTime.now (),true),
-                new Counter (null,Type.ELECTRICITY,"1",null,null, null,LocalDateTime.now (),true)
-        );
-        counterRepository.saveAll (counters);
-        return counters;
-    }
-
     @Override
     public boolean save(CounterDto counterDto) {
         return false;

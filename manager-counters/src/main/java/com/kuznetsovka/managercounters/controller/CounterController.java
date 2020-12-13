@@ -49,21 +49,16 @@ public class CounterController {
 
 
     @PostMapping("/newCounters")
-    public String newCounter(Model model,
+    public String newCounters(Model model,
                              HouseDto houseDto,
                              @RequestParam(name ="regionID") Long regionID){
         System.out.println("Called method newCounter");
         regionId = regionID;
         newHouse = houseDto;
-        Registry.getInstance ().getIdentityMap ().init();
+        //Registry.getInstance ().getIdentityMap ().init();
         model.addAttribute("counter", new CounterDto ());
         return "addCounter";
     }
-//    @GetMapping("/newCounters")
-//    public String getNewCounter(Model model){
-//        model.addAttribute("counters", list);
-//        return "addHouse";
-//    }
 
     @PostMapping(value = "/continue")
     public String continueAddHouse(Model model, Principal principal){
@@ -76,7 +71,7 @@ public class CounterController {
     }
 
     @PostMapping(value = "/saveCounter")
-    public String addCounter(Model model,  CounterDto counterDto, Principal principal){
+    public String saveCounter(Model model,  CounterDto counterDto, Principal principal){
         list.add(counterDto);
         //Registry.getInstance ().getIdentityMap ().getCurrent ().add (counterService.getCounterByDto(counterDto));
         model.addAttribute("counters", list);

@@ -27,14 +27,6 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        InitBDUser();
-    }
-    private void InitBDUser() {
-        if (!userRepository.existsById ((long) 1)) {
-            userRepository.save (
-                    new User (null, "Kirill", passwordEncoder.encode ("pass"), "mail@gmail.com", null)
-            );
-        }
     }
 
     @Override
