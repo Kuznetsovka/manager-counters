@@ -1,7 +1,7 @@
 package com.kuznetsovka.managercounters.domain;
 
 public enum Type {
-    HOT_WATER("HOT_WATER"),COLD_WATER("HOT_WATER"),ELECTRICITY("ELECTRICITY"),GAS("GAS"),DISCHARGE_WATER("DISCHARGE_WATER");
+    HOT_WATER("HOT_WATER"),COLD_WATER("COLD_WATER"),ELECTRICITY("ELECTRICITY"),GAS("GAS"),DISCHARGE_WATER("DISCHARGE_WATER");
     private final String txt;
 
     Type(String txt) {

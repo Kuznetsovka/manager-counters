@@ -4,19 +4,15 @@ import com.kuznetsovka.managercounters.domain.Counter;
 import com.kuznetsovka.managercounters.domain.Tariff;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.HouseDto;
-import com.kuznetsovka.managercounters.dto.TariffDto;
-import com.kuznetsovka.managercounters.registry.Registry;
 import com.kuznetsovka.managercounters.service.company.CompanyServiceImpl;
 import com.kuznetsovka.managercounters.service.counter.CounterServiceImpl;
 import com.kuznetsovka.managercounters.service.house.HouseServiceImpl;
 import com.kuznetsovka.managercounters.service.region.RegionServiceProxy;
 import com.kuznetsovka.managercounters.service.tariff.TariffServiceImpl;
-import com.kuznetsovka.managercounters.service.tariff.TariffServiceJdbcProxy;
+import com.kuznetsovka.managercounters.service.tariff.TariffServiceJdbcImpl;
 import com.kuznetsovka.managercounters.service.user.UserServiceImpl;
 import com.kuznetsovka.managercounters.service.value.ValueServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
@@ -25,17 +21,26 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Component
 public class MediatorImpl implements Mediator {
-    private ValueServiceImpl valueService;
-    private RegionServiceProxy regionService;
-    private CounterServiceImpl counterService;
-    private TariffServiceJdbcProxy tariffService;
-    private HouseServiceImpl houseService;
-    private UserServiceImpl userService;
-    private CompanyServiceImpl companyService;
+    private final ValueServiceImpl valueService;
+    private final RegionServiceProxy regionService;
+    private final CounterServiceImpl counterService;
+    private final TariffServiceJdbcImpl tariffService;
+    private final HouseServiceImpl houseService;
+    private final UserServiceImpl userService;
+    private final CompanyServiceImpl companyService;
+
+    public MediatorImpl(ValueServiceImpl valueService, RegionServiceProxy regionService, CounterServiceImpl counterService, TariffServiceJdbcImpl tariffService, HouseServiceImpl houseService, UserServiceImpl userService, CompanyServiceImpl companyService) {
+        this.valueService = valueService;
+        this.regionService = regionService;
+        this.counterService = counterService;
+        this.tariffService = tariffService;
+        this.houseService = houseService;
+        this.userService = userService;
+        this.companyService = companyService;
+    }
 
     @Override
     public void addValue(BigDecimal value) {
@@ -43,8 +48,8 @@ public class MediatorImpl implements Mediator {
     }
 
     @Override
-    public List<Counter> addCounters() {
-        return counterService.create();
+    public boolean addCounters(List<Counter> list) {
+        return counterService.saveAll (list);
     }
 
     @Override
@@ -55,16 +60,14 @@ public class MediatorImpl implements Mediator {
             for (Tariff tariff : tariffs) {
                 if(counter.getType ().equals (tariff.getType ())){
                     counter.setTariff (tariff);
-                    counterService.save (counter);
-
                 }
             }
         }
+        addCounters(counters);
         houseDto.setCounters (counters);
         houseDto.setUser (userService.findByName(name));
         houseDto.setRegion (regionService.findById (regionID));
-        houseService.save (houseDto);
-        return true;
+        return houseService.save (houseDto);
     }
 
     @Override

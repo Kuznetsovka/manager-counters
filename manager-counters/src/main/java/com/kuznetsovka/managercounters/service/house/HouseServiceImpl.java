@@ -21,11 +21,10 @@ import java.util.List;
 @Service
 public class HouseServiceImpl implements HouseService {
     private final HouseMapper mapper = HouseMapper.MAPPER;
-    private final MediatorImpl mediator;
     private final HouseRepository houseRepository;
 
-    public HouseServiceImpl(MediatorImpl mediator, HouseRepository houseRepository) {
-        this.mediator = mediator;
+    public HouseServiceImpl(HouseRepository houseRepository) {
+
         this.houseRepository = houseRepository;
     }
 
@@ -43,8 +42,7 @@ public class HouseServiceImpl implements HouseService {
     @Override
     @Transactional
     public boolean save(HouseDto houseDto) {
-        houseRepository.save(mapper.toHouse (houseDto));
-        return true;
+        return (houseRepository.save(mapper.toHouse (houseDto))!=null);
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "tbl_counters")
-public class Counter {
+public class Counter implements Entities {
     private static final String SEQ_NAME = "counter_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)

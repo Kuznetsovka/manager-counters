@@ -1,32 +1,44 @@
 package com.kuznetsovka.managercounters.registry;
 
 import com.kuznetsovka.managercounters.domain.Counter;
+import com.kuznetsovka.managercounters.domain.Entities;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class IdentityMap {
-    private static final ThreadLocal<IdentityMap> current = new ThreadLocal<> ();
+@Component
+@AllArgsConstructor
+@NoArgsConstructor
+public class IdentityMap<T extends Entities> {
 
-    public static void init(){
-        current.set(new IdentityMap());
-    }
+    private Map<Long, T> entities = new HashMap<> ();
 
-    public static IdentityMap getCurrent(){
-        return current.get();
-    }
-
-    private Map<Long, Counter> entities = new HashMap<> ();
-
-    public Counter find(Integer id){
+    public T find(Long id){
         return entities.get(id);
     }
 
-    public void add(Counter counter){
-        entities.put(counter.getId(), counter);
+    public List<T> getList(){
+        return entities.values().parallelStream().collect(Collectors.toList());
     }
 
-    public void remove(Counter counter){
-        entities.remove(counter.getId(), counter);
+    public void add(T entity){
+        entities.put(entity.getId(), entity);
+    }
+
+    public void addAll(List<T> list){
+        for (T entity : list) {
+            entities.put(entity.getId(), entity);
+        }
+    }
+
+    public void remove(T entity){
+        entities.remove(entity.getId(), entity);
     }
 
     public void clear(){
