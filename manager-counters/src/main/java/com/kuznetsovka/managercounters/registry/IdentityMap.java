@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
-@AllArgsConstructor
-@NoArgsConstructor
 public class IdentityMap<T extends Entities> {
 
     private Map<Long, T> entities = new HashMap<> ();

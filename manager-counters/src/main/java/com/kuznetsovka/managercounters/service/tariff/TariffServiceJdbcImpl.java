@@ -16,9 +16,9 @@ public class TariffServiceJdbcImpl {
     private JdbcTemplate jdbcTemplate;
     private final IdentityMap identityMap;
     @Autowired
-    public TariffServiceJdbcImpl(JdbcTemplate jdbcTemplate, IdentityMap identityMap) {
+    public TariffServiceJdbcImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.identityMap = identityMap;
+        this.identityMap = new IdentityMap<Tariff> ();
     }
 
     public List<Tariff> findById(Long id) {
