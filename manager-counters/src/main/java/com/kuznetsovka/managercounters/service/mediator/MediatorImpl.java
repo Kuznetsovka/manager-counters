@@ -49,7 +49,10 @@ public class MediatorImpl implements Mediator {
 
     @Override
     public boolean addCounters(List<Counter> list) {
-        return counterService.saveAll (list);
+        for (Counter counter : list) {
+            counterService.save (counter);
+        }
+        return true;
     }
 
     @Override
@@ -60,10 +63,10 @@ public class MediatorImpl implements Mediator {
             for (Tariff tariff : tariffs) {
                 if(counter.getType ().equals (tariff.getType ())){
                     counter.setTariff (tariff);
+                    counter.setChecking (true);
                 }
             }
         }
-        addCounters(counters);
         houseDto.setCounters (counters);
         houseDto.setUser (userService.findByName(name));
         houseDto.setRegion (regionService.findById (regionID));

@@ -4,13 +4,9 @@ import com.kuznetsovka.managercounters.domain.*;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.mapper.CounterMapper;
 import com.kuznetsovka.managercounters.repo.CounterRepository;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -42,9 +38,11 @@ public class CounterServiceImpl implements CounterService {
 
     }
 
+    @Transactional
     @Override
-    public void save(Counter counter) {
-
+    public boolean save(Counter counter) {
+            counterRepository.save(counter);
+        return true;
     }
 
     @Override

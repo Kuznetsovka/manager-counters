@@ -52,7 +52,6 @@ public class CounterController {
         System.out.println("Called method newCounter");
         regionId = regionID;
         newHouse = houseDto;
-        //Registry.getInstance ().getIdentityMap ().init();
         model.addAttribute("counter", new CounterDto ());
         return "addCounter";
     }
@@ -70,7 +69,6 @@ public class CounterController {
     @PostMapping(value = "/saveCounter")
     public String saveCounter(Model model,  CounterDto counterDto, Principal principal){
         list.add(counterDto);
-        //Registry.getInstance ().getIdentityMap ().getCurrent ().add (counterService.getCounterByDto(counterDto));
         model.addAttribute("counters", list);
         model.addAttribute("counter", new CounterDto ());
         return "addCounter";

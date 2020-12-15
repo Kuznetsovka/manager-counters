@@ -26,7 +26,7 @@ public class Counter implements Entities {
     @Enumerated(EnumType.STRING)
     private Type type;
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
     @OneToMany(cascade = CascadeType.ALL)
@@ -37,5 +37,6 @@ public class Counter implements Entities {
     private House house;
     @UpdateTimestamp
     private LocalDateTime dateChecking;
+
     boolean isChecking;
 }

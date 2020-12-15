@@ -21,8 +21,7 @@ public class User extends Person implements Entities {
     private String name;
     private String password;
     private String email;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
-//    @JoinColumn(name = "house_id")
+    @OneToMany(mappedBy = "user")
     private List<House> houses;
     @Enumerated(EnumType.STRING)
     private final Role role = Role.USER;

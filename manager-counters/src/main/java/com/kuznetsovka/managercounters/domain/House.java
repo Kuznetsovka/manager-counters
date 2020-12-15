@@ -22,16 +22,15 @@ public class House implements Entities {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     private String address;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "region_id")
     private Region region;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "house")
-//    @JoinColumn(name = "house_id")
     private List<Counter> counters;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 }

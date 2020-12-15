@@ -22,5 +22,4 @@ public class HouseDto {
     private List<Counter> counters;
     private User user;
     private Company company;
-    private int countCounter;
 }

@@ -25,7 +25,6 @@ public class Company extends Person implements Entities {
     private String email;
     private Long INN;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
-//    @JoinColumn(name = "company_id")
+    @OneToMany(mappedBy = "company")
     private List<House> houses;
 }
