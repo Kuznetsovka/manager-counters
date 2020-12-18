@@ -1,9 +1,7 @@
 package com.kuznetsovka.managercounters.service.value;
 
-import com.kuznetsovka.managercounters.domain.Counter;
-import com.kuznetsovka.managercounters.domain.Type;
 import com.kuznetsovka.managercounters.domain.Value;
-import com.kuznetsovka.managercounters.domain.ValuePower;
+import com.kuznetsovka.managercounters.dto.ValuePower;
 import com.kuznetsovka.managercounters.dto.ValueDto;
 import com.kuznetsovka.managercounters.mapper.ValueMapper;
 import com.kuznetsovka.managercounters.repo.ValueRepository;
@@ -11,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class ValueServiceImpl implements ValueService {
@@ -25,12 +20,12 @@ public class ValueServiceImpl implements ValueService {
     }
 
     public void create(BigDecimal val) {
-        Value value = new ValuePower ();
+        ValueDto value = new ValuePower ();
         Value.builder()
             .value (val)
             .build ();
-        //System.out.println (value.getMeasureStrategy ().getMeasure ());
-        valueRepository.save (value);
+        System.out.println (value.getMeasureStrategy ().getMeasure ());
+        valueRepository.save (mapper.toValue (value));
     }
 
     @Override

@@ -28,17 +28,6 @@ public class HouseServiceImpl implements HouseService {
         this.houseRepository = houseRepository;
     }
 
-//    private void InitBDUser() {
-//        RegionDto reg = mediator.getRegionService ().findById ((long) 1);
-//        if (!houseRepository.existsById ((long) 1)) {
-//            House house = House.builder()
-//                    .address("г. Балашиха, ул. Заречная, д. 40, кв. 40")
-//                    .region (reg)
-//                    .build();
-//            houseRepository.save (house);
-//        }
-//    }
-
     @Override
     @Transactional
     public boolean save(HouseDto houseDto) {
@@ -48,6 +37,11 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public House getById(Long id) {
         return houseRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public House getByDto(HouseDto houseDto) {
+        return mapper.toHouse (houseDto);
     }
 
     @Override

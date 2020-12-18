@@ -1,4 +1,4 @@
-package com.kuznetsovka.managercounters.domain;
+package com.kuznetsovka.managercounters.dto;
 
 public class VolumeStrategy implements MeasureStrategy {
     @Override

@@ -11,5 +11,5 @@ public interface HouseService {
     void delete(Long id);
     void save(House house);
     House getById(Long id);
-
+    House getByDto(HouseDto houseDto);
 }

@@ -49,28 +49,29 @@ public class MediatorImpl implements Mediator {
 
     @Override
     public boolean addCounters(List<Counter> list) {
-        for (Counter counter : list) {
-            counterService.save (counter);
-        }
+            counterService.saveAll (list);
         return true;
     }
 
     @Override
     public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDtoList, Long regionID, String name) {
         List<Tariff> tariffs = tariffService.findById (regionID);
-        List<Counter> counters = counterService.getCounterByDto (counterDtoList);
+        List<Counter> counters = counterService.getCountersByDto (counterDtoList);
         for (Counter counter : counters) {
             for (Tariff tariff : tariffs) {
                 if(counter.getType ().equals (tariff.getType ())){
                     counter.setTariff (tariff);
                     counter.setChecking (true);
+                    counter.setHouse (houseService.getByDto (houseDto));
                 }
             }
         }
         houseDto.setCounters (counters);
         houseDto.setUser (userService.findByName(name));
         houseDto.setRegion (regionService.findById (regionID));
-        return houseService.save (houseDto);
+        houseService.save (houseDto);
+        addCounters(counters);
+        return true;
     }
 
     @Override

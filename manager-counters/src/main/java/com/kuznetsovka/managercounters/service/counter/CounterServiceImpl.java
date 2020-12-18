@@ -38,26 +38,22 @@ public class CounterServiceImpl implements CounterService {
 
     }
 
-    @Transactional
     @Override
     public boolean save(Counter counter) {
-            counterRepository.save(counter);
+            counterRepository.save (counter);
         return true;
     }
+
 
     @Override
     public Counter getById(Long id) {
         return null;
     }
 
-    @Override
-    public Counter getCounterByDto(CounterDto counterDto) {
-        return mapper.toCounter (counterDto);
-    }
-
-    public List<Counter> getCounterByDto(List<CounterDto> counterDtoList) {
+    public List<Counter> getCountersByDto(List<CounterDto> counterDtoList) {
         return mapper.toCounterList (counterDtoList);
     }
+
 
     @Transactional
     public boolean saveAll(List<Counter> counters) {

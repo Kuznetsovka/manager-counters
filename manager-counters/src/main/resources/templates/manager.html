@@ -11,13 +11,9 @@
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
 <h1>Manager</h1>
-
 <tr th:text="*{name}">Имя</tr>
 <tr>
-    <select name="houses">
-        <option th:each="house : ${houses}"
-                th:value="${house.getAddress()}" th:text="${house.getAddress()}"></option>
-    </select>
+
 </tr>
 </body>
 </html>

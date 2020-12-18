@@ -13,5 +13,5 @@ public interface CounterService {
     boolean save(Counter counter);
     boolean saveAll(List<Counter> counters);
     Counter getById(Long id);
-    Counter getCounterByDto(CounterDto counterDto);
+    List<Counter> getCountersByDto(List<CounterDto> counterDtoList);
 }

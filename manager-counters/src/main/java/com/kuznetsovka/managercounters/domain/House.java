@@ -25,9 +25,9 @@ public class House implements Entities {
     @ManyToOne
     @JoinColumn(name = "region_id")
     private Region region;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "house")
+    @OneToMany(mappedBy = "house")
     private List<Counter> counters;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
