@@ -19,9 +19,7 @@ import java.util.List;
 public class HouseDto {
     private String address;
     private Region region;
-    private Integer region_id;
     private List<Counter> counters;
     private User user;
     private Company company;
-    private int countCounter;
 }

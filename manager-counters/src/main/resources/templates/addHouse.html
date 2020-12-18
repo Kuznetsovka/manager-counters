@@ -9,19 +9,21 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<form th:action="@{/manager/newHouse}" th:object="${house}" method="post">
-    <tr>
-        <td>Адрес</td>
-        <td><input type="text" id="address"/> </td>
-    </tr>
-    <tr>
-        <td>Регион</td>
-        <td><input type="number" id="region_id"/></td>
-    </tr>
-    <tr>
-        <td>Количество счетчиков</td>
-        <td><input type="number" id="countCounter"/></td>
-    </tr>
+<form th:action="@{/counter/newCounters}" th:object="${house}" method="post">
+    <table border="1" class="table table-hover">
+        <tr>
+            <td>Адрес</td>
+            <td><input type="text" th:field="*{address}"/> </td>
+        </tr>
+        <tr>
+            <td>Регион</td>
+            <td>
+                <select name="regionID">
+                    <option th:each="r : ${regions}" th:value="${r.id}" th:text="${r.title}"></option>
+                </select>
+            </td>
+        </tr>
+    </table>
     <button id="send" type="submit">Добавить</button>
 </form>
 </body>

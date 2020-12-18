@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "tbl_companies")
-public class Company extends Person {
+public class Company extends Person implements Entities {
     private static final String SEQ_NAME = "company_seq";
     @Enumerated(EnumType.STRING)
     private final Role role = Role.COMPANY;
@@ -25,7 +25,6 @@ public class Company extends Person {
     private String email;
     private Long INN;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "company_id")
+    @OneToMany(mappedBy = "company")
     private List<House> houses;
 }

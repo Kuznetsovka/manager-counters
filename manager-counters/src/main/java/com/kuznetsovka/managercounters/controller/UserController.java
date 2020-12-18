@@ -1,24 +1,32 @@
 package com.kuznetsovka.managercounters.controller;
 
+import com.kuznetsovka.managercounters.domain.Region;
+import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
 import com.kuznetsovka.managercounters.dto.HouseDto;
+import com.kuznetsovka.managercounters.dto.RegionDto;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
 import com.kuznetsovka.managercounters.service.house.HouseService;
+import com.kuznetsovka.managercounters.service.mediator.Mediator;
+import com.kuznetsovka.managercounters.service.region.RegionServiceProxy;
 import com.kuznetsovka.managercounters.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/manager")
 public class UserController {
-
     private final UserService userService;
     private final HouseService houseService;
+    private final RegionServiceProxy regionService;
 
     @GetMapping
     public String manager(Model model, Principal principal){
@@ -30,22 +38,15 @@ public class UserController {
     public String newHouse(Model model){
         System.out.println("Called method newHouse");
         model.addAttribute("house", new HouseDto ());
+        List<Region> regions = regionService.getAll ();
+        model.addAttribute("regions", regionService.getListDto(regions));
         return "addHouse";
     }
 
-    @PostMapping(value = "/newHouse")
-    public String saveHouse(HouseDto dto, Model model){
-        if(houseService.save(dto)){
-            return "redirect:/manager";
-        } else {
-            model.addAttribute("house", dto);
-            return "addHouse";
-        }
-    }
-
-    public UserController(UserService userService, HouseService houseService) {
+    public UserController(UserService userService, HouseService houseService, RegionServiceProxy regionService) {
         this.userService = userService;
         this.houseService = houseService;
+        this.regionService = regionService;
     }
 
     @ExceptionHandler

@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "tbl_counters")
-public class Counter {
+public class Counter implements Entities {
     private static final String SEQ_NAME = "counter_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -26,7 +26,7 @@ public class Counter {
     @Enumerated(EnumType.STRING)
     private Type type;
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
     @OneToMany(cascade = CascadeType.ALL)
@@ -37,5 +37,6 @@ public class Counter {
     private House house;
     @UpdateTimestamp
     private LocalDateTime dateChecking;
+
     boolean isChecking;
 }

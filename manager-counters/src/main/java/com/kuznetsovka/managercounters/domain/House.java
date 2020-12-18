@@ -15,23 +15,22 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "tbl_houses")
-public class House {
+public class House implements Entities {
     private static final String SEQ_NAME = "house_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     private String address;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "region_id")
     private Region region;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "house_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "house")
     private List<Counter> counters;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 }

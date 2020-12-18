@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "tbl_users")
-public class User extends Person {
+public class User extends Person implements Entities {
     private static final String SEQ_NAME = "user_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -21,8 +21,7 @@ public class User extends Person {
     private String name;
     private String password;
     private String email;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user")
     private List<House> houses;
     @Enumerated(EnumType.STRING)
     private final Role role = Role.USER;

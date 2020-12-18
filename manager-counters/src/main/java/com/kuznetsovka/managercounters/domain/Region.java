@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "tbl_regions")
-public class Region {
+public class Region implements Entities{
     private static final String SEQ_NAME = "region_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)

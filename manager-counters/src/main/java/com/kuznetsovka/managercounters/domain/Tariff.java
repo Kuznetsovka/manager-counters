@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "tbl_tariffs")
-public class Tariff {
+public class Tariff implements Entities {
     private static final String SEQ_NAME = "tariff_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)

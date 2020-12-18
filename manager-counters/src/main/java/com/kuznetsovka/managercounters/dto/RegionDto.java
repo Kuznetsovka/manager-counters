@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RegionDto {
+    private Long id;
     private String title;
     private List<Tariff> tariffs;
 }
