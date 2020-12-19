@@ -1,6 +1,7 @@
 package com.kuznetsovka.managercounters.service.mediator;
 
 import com.kuznetsovka.managercounters.domain.Counter;
+import com.kuznetsovka.managercounters.domain.House;
 import com.kuznetsovka.managercounters.domain.Tariff;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.HouseDto;
@@ -8,6 +9,7 @@ import com.kuznetsovka.managercounters.service.company.CompanyServiceImpl;
 import com.kuznetsovka.managercounters.service.counter.CounterServiceImpl;
 import com.kuznetsovka.managercounters.service.house.HouseServiceImpl;
 import com.kuznetsovka.managercounters.service.region.RegionServiceProxy;
+import com.kuznetsovka.managercounters.service.tariff.TariffService;
 import com.kuznetsovka.managercounters.service.tariff.TariffServiceImpl;
 import com.kuznetsovka.managercounters.service.tariff.TariffServiceJdbcImpl;
 import com.kuznetsovka.managercounters.service.user.UserServiceImpl;
@@ -27,12 +29,12 @@ public class MediatorImpl implements Mediator {
     private final ValueServiceImpl valueService;
     private final RegionServiceProxy regionService;
     private final CounterServiceImpl counterService;
-    private final TariffServiceJdbcImpl tariffService;
+    private final TariffServiceImpl tariffService;
     private final HouseServiceImpl houseService;
     private final UserServiceImpl userService;
     private final CompanyServiceImpl companyService;
 
-    public MediatorImpl(ValueServiceImpl valueService, RegionServiceProxy regionService, CounterServiceImpl counterService, TariffServiceJdbcImpl tariffService, HouseServiceImpl houseService, UserServiceImpl userService, CompanyServiceImpl companyService) {
+    public MediatorImpl(ValueServiceImpl valueService, RegionServiceProxy regionService, CounterServiceImpl counterService, TariffServiceImpl tariffService, HouseServiceImpl houseService, UserServiceImpl userService, CompanyServiceImpl companyService) {
         this.valueService = valueService;
         this.regionService = regionService;
         this.counterService = counterService;
@@ -48,30 +50,27 @@ public class MediatorImpl implements Mediator {
     }
 
     @Override
-    public boolean addCounters(List<Counter> list) {
-            counterService.saveAll (list);
+    public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDtoList, Long regionID, String name) {
+        List<Tariff> tariffs = tariffService.getTariffServiceJdbc ().findById (regionID);
+        List<Counter> counters = counterService.getCountersByDto (counterDtoList);
+        houseDto.setUser (userService.findByName(name));
+        houseDto.setRegion (regionService.findById (regionID));
+        House house = houseService.save (houseDto);
+        addCounters (tariffs, counters, house);
         return true;
     }
 
-    @Override
-    public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDtoList, Long regionID, String name) {
-        List<Tariff> tariffs = tariffService.findById (regionID);
-        List<Counter> counters = counterService.getCountersByDto (counterDtoList);
+    public void addCounters(List<Tariff> tariffs, List<Counter> counters, House house) {
         for (Counter counter : counters) {
             for (Tariff tariff : tariffs) {
                 if(counter.getType ().equals (tariff.getType ())){
-                    counter.setTariff (tariff);
+                    counter.setTariff (tariffService.getById (tariff.getId ()));
                     counter.setChecking (true);
-                    counter.setHouse (houseService.getByDto (houseDto));
+                    counter.setHouse (house);
                 }
             }
         }
-        houseDto.setCounters (counters);
-        houseDto.setUser (userService.findByName(name));
-        houseDto.setRegion (regionService.findById (regionID));
-        houseService.save (houseDto);
-        addCounters(counters);
-        return true;
+        counterService.saveAll (counters);
     }
 
     @Override

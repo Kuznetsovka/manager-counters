@@ -30,8 +30,8 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     @Transactional
-    public boolean save(HouseDto houseDto) {
-        return (houseRepository.save(mapper.toHouse (houseDto))!=null);
+    public House save(HouseDto houseDto) {
+        return houseRepository.save(mapper.toHouse (houseDto));
     }
 
     @Override
