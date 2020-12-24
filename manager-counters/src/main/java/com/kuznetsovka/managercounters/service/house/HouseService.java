@@ -12,4 +12,6 @@ public interface HouseService {
     void save(House house);
     House getById(Long id);
     House getByDto(HouseDto houseDto);
+    House findByUser(User user);
+    HouseDto getHouseByDto(House house);
 }

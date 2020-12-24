@@ -17,27 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/value")
 public class ValueController {
 
     private final ValueService valueService;
-
-    @GetMapping("/newValue")
-    public String newHouse(Model model){
-        System.out.println("Called method newHouse");
-        model.addAttribute("value", new ValueDto ());
-        return "addValue";
-    }
-
-    @PostMapping(value = "/newValue")
-    public String saveHouse(ValueDto dto, Model model){
-        if(valueService.save(dto)){
-            return "redirect:/manager";
-        } else {
-            model.addAttribute("value", dto);
-            return "addValue";
-        }
-    }
 
     public ValueController( ValueService valueService) {
         this.valueService = valueService;

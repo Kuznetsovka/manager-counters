@@ -1,14 +1,15 @@
 package com.kuznetsovka.managercounters.controller;
 
+import com.kuznetsovka.managercounters.domain.Value;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
 import com.kuznetsovka.managercounters.dto.HouseDto;
+import com.kuznetsovka.managercounters.dto.ValueDto;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
-import com.kuznetsovka.managercounters.service.counter.CounterService;
-import com.kuznetsovka.managercounters.service.house.HouseService;
+import com.kuznetsovka.managercounters.repo.ValueRepository;
 import com.kuznetsovka.managercounters.service.mediator.Mediator;
-import com.kuznetsovka.managercounters.service.region.RegionServiceProxy;
-import com.kuznetsovka.managercounters.service.user.UserService;
+import com.kuznetsovka.managercounters.service.value.ValueService;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,19 +24,16 @@ import java.util.List;
 @RequestMapping("/counter")
 public class CounterController {
     private Mediator mediator;
-    private final UserService userService;
-    private final HouseService houseService;
-    private final RegionServiceProxy regionService;
-    private final CounterService counterService;
+    private final ValueService valueService;
+    private final ValueRepository valueRepository;
     private HouseDto newHouse;
     private List<CounterDto> list = new ArrayList<> ();
     private Long regionId;
-    public CounterController(Mediator mediator, UserService userService, HouseService houseService, RegionServiceProxy regionService, CounterService counterService) {
+
+    public CounterController(Mediator mediator, ValueService valueService, ValueRepository valueRepository) {
         this.mediator = mediator;
-        this.userService = userService;
-        this.houseService = houseService;
-        this.regionService = regionService;
-        this.counterService = counterService;
+        this.valueService = valueService;
+        this.valueRepository = valueRepository;
     }
 
     @GetMapping
@@ -72,6 +70,42 @@ public class CounterController {
         model.addAttribute("counters", list);
         model.addAttribute("counter", new CounterDto ());
         return "addCounter";
+    }
+
+    // http://localhost:8090/counter/newValue - GET
+    @GetMapping("/newValue")
+    public String newValue(Model model){
+        System.out.println("Called method newHouse");
+        model.addAttribute("value", new ValueDto ());
+        return "addValue";
+    }
+
+    // http://localhost:8090/counter/newValue - POST
+    @PostMapping(value = "/newValue")
+    public String saveHouse(ValueDto dto, Model model){
+        if(valueService.save(dto)){
+            model.addAttribute("values", valueRepository.findAll ());
+            return "redirect:/history";
+        } else {
+            model.addAttribute("value", dto);
+            return "addValue";
+        }
+    }
+
+    // http://localhost:8090/counter/value/SortByAsc - GET
+    @RequestMapping("/value/SortByAsc")
+    public String filterByMaxPriceProduct(Model model){
+        List<Value> values = valueRepository.findAll (Sort.by("date").descending ());
+        model.addAttribute("products", values);
+        return "values";
+    }
+
+    // http://localhost:8090/counter/value/SortByAsc - GET
+    @RequestMapping("/value/SortByDes")
+    public String filterByMinPriceProduct(Model model){
+        List<Value> values = valueRepository.findAll (Sort.by("date").ascending());
+        model.addAttribute("products", values);
+        return "values";
     }
 
     @ExceptionHandler

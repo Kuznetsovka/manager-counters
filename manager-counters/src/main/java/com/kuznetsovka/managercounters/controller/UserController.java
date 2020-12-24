@@ -1,6 +1,8 @@
 package com.kuznetsovka.managercounters.controller;
 
+import com.kuznetsovka.managercounters.domain.House;
 import com.kuznetsovka.managercounters.domain.Region;
+import com.kuznetsovka.managercounters.domain.User;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
 import com.kuznetsovka.managercounters.dto.HouseDto;
@@ -30,7 +32,16 @@ public class UserController {
 
     @GetMapping
     public String manager(Model model, Principal principal){
-        model.addAttribute("user", userService.findByName (principal.getName ()));
+        User user = userService.findByName (principal.getName ());
+        model.addAttribute("user", user);
+        model.addAttribute("counters", user.getHouses ().get (0).getCounters ());
+//        HouseDto house;
+//        if (user.getHouses ().isEmpty ()) {
+//            house = new HouseDto ();
+//        } else {
+//            house = houseService.getHouseByDto (houseService.findByUser(user));
+//        }
+//        model.addAttribute("house", house);
         return "manager";
     }
 
