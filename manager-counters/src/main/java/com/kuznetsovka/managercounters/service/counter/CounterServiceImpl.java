@@ -19,8 +19,10 @@ public class CounterServiceImpl implements CounterService {
     }
 
     @Override
+    @Transactional
     public boolean save(CounterDto counterDto) {
-        return false;
+        counterRepository.save (mapper.toCounter (counterDto));
+        return true;
     }
 
     @Override
@@ -34,11 +36,13 @@ public class CounterServiceImpl implements CounterService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
 
     }
 
     @Override
+    @Transactional
     public boolean save(Counter counter) {
             counterRepository.save (counter);
         return true;

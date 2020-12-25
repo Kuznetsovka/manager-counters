@@ -29,7 +29,7 @@ public class Counter implements Entities {
     @ManyToOne
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "counter_id")
     private List<Value> values;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -37,7 +37,7 @@ public class Counter implements Entities {
     private House house;
     @UpdateTimestamp
     private LocalDateTime dateChecking;
-    @OneToOne(mappedBy = "counter", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "counter")
     private CounterDetail detail;
     boolean isChecking;
 }

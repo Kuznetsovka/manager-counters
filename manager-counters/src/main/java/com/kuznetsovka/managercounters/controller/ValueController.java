@@ -1,19 +1,12 @@
 package com.kuznetsovka.managercounters.controller;
 
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
-import com.kuznetsovka.managercounters.dto.HouseDto;
-import com.kuznetsovka.managercounters.dto.ValueDto;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
-import com.kuznetsovka.managercounters.service.house.HouseService;
-import com.kuznetsovka.managercounters.service.user.UserService;
 import com.kuznetsovka.managercounters.service.value.ValueService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller

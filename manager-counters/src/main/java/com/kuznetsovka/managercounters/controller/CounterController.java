@@ -72,7 +72,7 @@ public class CounterController {
         return "addCounter";
     }
 
-    // http://localhost:8090/counter/newValue - GET
+    // http://localhost:8090/counter/newValue - POST
     @GetMapping("/newValue")
     public String newValue(Model model){
         System.out.println("Called method newHouse");
@@ -96,16 +96,16 @@ public class CounterController {
     @RequestMapping("/value/SortByAsc")
     public String filterByMaxPriceProduct(Model model){
         List<Value> values = valueRepository.findAll (Sort.by("date").descending ());
-        model.addAttribute("products", values);
-        return "values";
+        model.addAttribute("values", values);
+        return "history";
     }
 
     // http://localhost:8090/counter/value/SortByAsc - GET
     @RequestMapping("/value/SortByDes")
     public String filterByMinPriceProduct(Model model){
         List<Value> values = valueRepository.findAll (Sort.by("date").ascending());
-        model.addAttribute("products", values);
-        return "values";
+        model.addAttribute("values", values);
+        return "history";
     }
 
     @ExceptionHandler
