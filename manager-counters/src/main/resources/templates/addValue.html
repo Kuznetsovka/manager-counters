@@ -9,11 +9,21 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<form th:action="@{/manager/newValue}" th:object="${value}" method="post">
-    <tr>
-        <td>Значение</td>
-        <td><input type="number" name = "value" th:value="${value.value}"/> </td>
-    </tr>
+<form th:action="@{/counter/newValue}" th:object="${values}" method="post">
+
+    <span th:if="${counters.size() == 0}">Counters list is empty</span>
+    <table th:if="${counters.size() > 0}" class="table table-hover" th:each="counter : ${counters}">
+        <thead class="thead-dark">
+        <tr>
+            <td>Счетчик</td>
+            <td>Значение</td>
+        </tr>
+        <tr th:each="value : ${counter.values}">
+            <td th:text="${counter.name}"></td>
+            <td><input type="number" name = "value" th:value="${value.value}"/> </td>
+        </tr>
+    </table>
+
     <button id="send" type="submit">Добавить</button>
 </form>
 </body>

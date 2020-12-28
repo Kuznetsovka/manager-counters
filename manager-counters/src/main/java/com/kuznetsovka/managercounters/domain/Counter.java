@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Stack;
 
 @Data
 @NoArgsConstructor
@@ -37,6 +37,7 @@ public class Counter implements Entities {
     private House house;
     @UpdateTimestamp
     private LocalDateTime dateChecking;
-
+    @OneToOne(mappedBy = "counter")
+    private CounterDetail detail;
     boolean isChecking;
 }

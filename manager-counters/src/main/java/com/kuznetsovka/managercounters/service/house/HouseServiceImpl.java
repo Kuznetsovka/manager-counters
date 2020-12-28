@@ -3,6 +3,7 @@ package com.kuznetsovka.managercounters.service.house;
 import com.kuznetsovka.managercounters.domain.Counter;
 import com.kuznetsovka.managercounters.domain.House;
 import com.kuznetsovka.managercounters.domain.Region;
+import com.kuznetsovka.managercounters.domain.User;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.HouseDto;
 import com.kuznetsovka.managercounters.dto.RegionDto;
@@ -28,26 +29,30 @@ public class HouseServiceImpl implements HouseService {
         this.houseRepository = houseRepository;
     }
 
-//    private void InitBDUser() {
-//        RegionDto reg = mediator.getRegionService ().findById ((long) 1);
-//        if (!houseRepository.existsById ((long) 1)) {
-//            House house = House.builder()
-//                    .address("г. Балашиха, ул. Заречная, д. 40, кв. 40")
-//                    .region (reg)
-//                    .build();
-//            houseRepository.save (house);
-//        }
-//    }
-
     @Override
     @Transactional
-    public boolean save(HouseDto houseDto) {
-        return (houseRepository.save(mapper.toHouse (houseDto))!=null);
+    public House save(HouseDto houseDto) {
+        return houseRepository.save(mapper.toHouse (houseDto));
     }
 
     @Override
     public House getById(Long id) {
         return houseRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public House getByDto(HouseDto houseDto) {
+        return mapper.toHouse (houseDto);
+    }
+
+    @Override
+    public House findByUser(User user) {
+        return houseRepository.findByUser(user).orElse(null);
+    }
+
+    @Override
+    public HouseDto getHouseByDto(House house) {
+        return mapper.fromHouse (house);
     }
 
     @Override

@@ -1,15 +1,14 @@
 package com.kuznetsovka.managercounters.service.mediator;
 
-import com.kuznetsovka.managercounters.domain.Counter;
-import com.kuznetsovka.managercounters.domain.Tariff;
+import com.kuznetsovka.managercounters.domain.*;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.HouseDto;
 import com.kuznetsovka.managercounters.service.company.CompanyServiceImpl;
 import com.kuznetsovka.managercounters.service.counter.CounterServiceImpl;
+import com.kuznetsovka.managercounters.service.detail.DetailServiceImpl;
 import com.kuznetsovka.managercounters.service.house.HouseServiceImpl;
 import com.kuznetsovka.managercounters.service.region.RegionServiceProxy;
 import com.kuznetsovka.managercounters.service.tariff.TariffServiceImpl;
-import com.kuznetsovka.managercounters.service.tariff.TariffServiceJdbcImpl;
 import com.kuznetsovka.managercounters.service.user.UserServiceImpl;
 import com.kuznetsovka.managercounters.service.value.ValueServiceImpl;
 import lombok.Getter;
@@ -17,6 +16,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -27,12 +27,13 @@ public class MediatorImpl implements Mediator {
     private final ValueServiceImpl valueService;
     private final RegionServiceProxy regionService;
     private final CounterServiceImpl counterService;
-    private final TariffServiceJdbcImpl tariffService;
+    private final TariffServiceImpl tariffService;
     private final HouseServiceImpl houseService;
     private final UserServiceImpl userService;
     private final CompanyServiceImpl companyService;
+    private final DetailServiceImpl detailService;
 
-    public MediatorImpl(ValueServiceImpl valueService, RegionServiceProxy regionService, CounterServiceImpl counterService, TariffServiceJdbcImpl tariffService, HouseServiceImpl houseService, UserServiceImpl userService, CompanyServiceImpl companyService) {
+    public MediatorImpl(ValueServiceImpl valueService, RegionServiceProxy regionService, CounterServiceImpl counterService, TariffServiceImpl tariffService, HouseServiceImpl houseService, UserServiceImpl userService, CompanyServiceImpl companyService, DetailServiceImpl detailService) {
         this.valueService = valueService;
         this.regionService = regionService;
         this.counterService = counterService;
@@ -40,37 +41,62 @@ public class MediatorImpl implements Mediator {
         this.houseService = houseService;
         this.userService = userService;
         this.companyService = companyService;
+        this.detailService = detailService;
     }
 
     @Override
-    public void addValue(BigDecimal value) {
-        valueService.create(value);
-    }
-
-    @Override
-    public boolean addCounters(List<Counter> list) {
-        for (Counter counter : list) {
-            counterService.save (counter);
-        }
-        return true;
+    public List<Value> addValue(BigDecimal value) {
+        List<Value> valueList = new LinkedList<> ();
+        Value val = new Value();
+        val.setValue (value);
+        valueList.add (val);
+        return valueList;
+        //valueService.create(value);
     }
 
     @Override
     public boolean addHouse(HouseDto houseDto, List<CounterDto> counterDtoList, Long regionID, String name) {
-        List<Tariff> tariffs = tariffService.findById (regionID);
-        List<Counter> counters = counterService.getCounterByDto (counterDtoList);
+        List<Tariff> tariffs = tariffService.getTariffServiceJdbc ().findById (regionID);
+        List<Counter> counters = counterService.getCountersByDto (counterDtoList);
+        houseDto.setUser (userService.findByName(name));
+        houseDto.setRegion (regionService.findById (regionID));
+        House house = houseService.save (houseDto);
+        addCounters (tariffs, counters, house);
+        return true;
+    }
+
+    public void addCounters(List<Tariff> tariffs, List<Counter> counters, House house) {
+        CounterDetail detail;
         for (Counter counter : counters) {
             for (Tariff tariff : tariffs) {
                 if(counter.getType ().equals (tariff.getType ())){
-                    counter.setTariff (tariff);
+                    List<Value> valueList = addValue(BigDecimal.valueOf (0.0));
+                    counter.setValues (valueList);
+                    counter.setTariff (tariffService.getById (tariff.getId ()));
                     counter.setChecking (true);
+                    counter.setHouse (house);
+                    detail = addCounterDetail (counter, tariff, valueList);
+                    counterService.save (counter);
+                    counter.setDetail (detail);
+                    detailService.save (detail);
                 }
             }
         }
-        houseDto.setCounters (counters);
-        houseDto.setUser (userService.findByName(name));
-        houseDto.setRegion (regionService.findById (regionID));
-        return houseService.save (houseDto);
+
+
+    }
+
+    private CounterDetail addCounterDetail(Counter counter, Tariff tariff, List<Value> valueList) {
+        CounterDetail detail =  new CounterDetail ();
+        detail.setCounter (counter);
+        detail.setOldValue (getLastValue (valueList).getValue ());
+        detail.setPrice (tariff.getPrice ());
+        detail.setLastDate (getLastValue (valueList).getDate ());
+        return detail;
+    }
+
+    private Value getLastValue(List<Value> valueList) {
+        return valueList.get (valueList.size ()-1);
     }
 
     @Override

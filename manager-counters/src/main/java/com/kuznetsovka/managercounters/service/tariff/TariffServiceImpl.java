@@ -1,13 +1,9 @@
 package com.kuznetsovka.managercounters.service.tariff;
 
-import com.kuznetsovka.managercounters.domain.Company;
 import com.kuznetsovka.managercounters.domain.Tariff;
 import com.kuznetsovka.managercounters.domain.Type;
-import com.kuznetsovka.managercounters.dto.CompanyDto;
 import com.kuznetsovka.managercounters.dto.TariffDto;
-import com.kuznetsovka.managercounters.mapper.CompanyMapper;
 import com.kuznetsovka.managercounters.mapper.TariffMapper;
-import com.kuznetsovka.managercounters.repo.CompanyRepository;
 import com.kuznetsovka.managercounters.repo.TariffRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +13,17 @@ import javax.transaction.Transactional;
 public class TariffServiceImpl implements TariffService {
     private final TariffMapper mapper = TariffMapper.MAPPER;
     private final TariffRepository tariffRepository;
+    private final TariffServiceJdbcImpl tariffServiceJdbc;
 
-    public TariffServiceImpl(TariffRepository tariffRepository) {
+    public TariffServiceJdbcImpl getTariffServiceJdbc() {
+        return tariffServiceJdbc;
+    }
+
+
+
+    public TariffServiceImpl(TariffRepository tariffRepository, TariffServiceJdbcImpl tariffServiceJdbc) {
         this.tariffRepository = tariffRepository;
+        this.tariffServiceJdbc = tariffServiceJdbc;
     }
 
     @Override

@@ -26,9 +26,4 @@ public class Value implements Entities {
     private BigDecimal value;
     @UpdateTimestamp
     private LocalDateTime date;
-//    MeasureStrategy measureStrategy;
-//
-//    public void getMeasure(){
-//        measureStrategy.getMeasure ();
-//    }
 }
