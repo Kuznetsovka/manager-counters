@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ValueServiceImpl implements ValueService {
@@ -33,5 +34,17 @@ public class ValueServiceImpl implements ValueService {
     public boolean save(ValueDto dto) {
         valueRepository.save(mapper.toValue (dto));
         return true;
+    }
+
+    @Override
+    @Transactional
+    public void saveAll(List<ValueDto> books) {
+        valueRepository.saveAll(mapper.toValueList (books));
+    }
+
+    @Override
+    @Transactional
+    public List<Value> findAll() {
+        return valueRepository.findAll();
     }
 }

@@ -1,30 +1,44 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Добавить значение</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <title>Add Values</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
 <body>
-<div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<form th:action="@{/counter/newValue}" th:object="${values}" method="post">
-
-    <span th:if="${counters.size() == 0}">Counters list is empty</span>
-    <table th:if="${counters.size() > 0}" class="table table-hover" th:each="counter : ${counters}">
-        <thead class="thead-dark">
-        <tr>
-            <td>Счетчик</td>
-            <td>Значение</td>
-        </tr>
-        <tr th:each="value : ${counter.values}">
-            <td th:text="${counter.name}"></td>
-            <td><input type="number" name = "value" th:value="${value.value}"/> </td>
-        </tr>
-    </table>
-
-    <button id="send" type="submit">Добавить</button>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1> Add Values </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="#" class="form-horizontal"
+                  th:action="@{/values/save}"
+                  th:object="${form}"
+                  method="post">
+                <fieldset>
+					<span class="pull-right">
+						    <input type="submit" id="submitButton" class="btn btn-success" th:value="Save">
+						    <input type="reset" id="resetButton" class="btn btn-danger" th:value="Reset"/>
+					</span>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th> Type</th>
+                            <th> Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="value, itemStat : *{values}">
+                            <td th:text="*{values[__${itemStat.index}__].type}"/></td>
+                            <td><input th:placeholder="Value + ' ' + ${itemStat.count}" th:field="*{values[__${itemStat.index}__].value}" required/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

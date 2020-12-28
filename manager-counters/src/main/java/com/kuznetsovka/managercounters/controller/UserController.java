@@ -1,9 +1,6 @@
 package com.kuznetsovka.managercounters.controller;
 
-import com.kuznetsovka.managercounters.domain.Counter;
-import com.kuznetsovka.managercounters.domain.House;
-import com.kuznetsovka.managercounters.domain.Region;
-import com.kuznetsovka.managercounters.domain.User;
+import com.kuznetsovka.managercounters.domain.*;
 import com.kuznetsovka.managercounters.dto.*;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
 import com.kuznetsovka.managercounters.service.house.HouseService;
@@ -20,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/manager")
@@ -33,6 +32,12 @@ public class UserController {
         User user = userService.findByName (principal.getName ());
         model.addAttribute("user", user);
         List<Counter> counters = user.getHouses ().get (0).getCounters ();
+
+//        List<ValueDto> values = Stream.iterate (new ValueDto (),n -> new ValueDto ())
+//                .limit(counters.size ())
+//                .collect(Collectors.toList());
+//        model.addAttribute("values", values);
+
         model.addAttribute("counters", counters);
 //        HouseDto house;
 //        if (user.getHouses ().isEmpty ()) {
