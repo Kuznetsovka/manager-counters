@@ -1,29 +1,46 @@
 package com.kuznetsovka.managercounters.dto;
 
-import java.util.ArrayList;
+import com.kuznetsovka.managercounters.domain.Counter;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ValuesCreationDto {
-    private List<ValueDto> values;
+    private BigDecimal oldValue;
+    public Map<Long,ValueDto> map;
+
+    public void addValues(List<Counter> counters) {
+        for (Counter counter : counters) {
+            ValueDto valueDto = ValueDto.builder()
+                    .value (BigDecimal.valueOf (0.0))
+                    .type (counter.getType ())
+                    .build ();
+            map.put(counter.getId (),valueDto);
+            int lastIndex = counter.getValues ().size ()-1;
+            this.oldValue = counter.getValues().get (lastIndex).getValue ();
+        }
+    }
+
+    public BigDecimal getOldValue() {
+        return oldValue;
+    }
+
+    public void setOldValue(BigDecimal oldValue) {
+        this.oldValue = oldValue;
+    }
+
+    public Map<Long, ValueDto> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<Long, ValueDto> map) {
+        this.map = map;
+    }
 
     public ValuesCreationDto() {
-        this.values = new ArrayList<>();
-    }
-
-    public ValuesCreationDto(List<ValueDto> values) {
-        this.values = values;
-    }
-
-    public List<ValueDto> getValues() {
-        return values;
-    }
-
-    public void setValues(List<ValueDto> values) {
-        this.values = values;
-    }
-
-    public void addValue(ValueDto value) {
-        this.values.add(value);
+        this.map = new HashMap ();
     }
 
 }

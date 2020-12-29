@@ -29,9 +29,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="value, itemStat : *{values}">
-                            <td th:text="*{values[__${itemStat.index}__].type}"/></td>
-                            <td><input th:placeholder="Value + ' ' + ${itemStat.count}" th:field="*{values[__${itemStat.index}__].value}" required/></td>
+<!--                        <tr th:each="instance : ${map}">-->
+<!--                            <td th:text="${instance.key}">key</td>-->
+<!--                            <td th:each="listObject : ${instance.value}">-->
+<!--                                <th:block th:number="${value}">0.0</th:block>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+                        <tr th:each="instance,itemStat : ${map}">
+                            <td>
+                                <th:block th:text="${instance.key[__${itemStat.index}__].type}"/>
+                            </td>
+                            <td>
+                                <th:block input th:placeholder="Value + ' ' + ${itemStat.count}" th:field="${instance.value[__${itemStat.index}__].value}" required/>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
