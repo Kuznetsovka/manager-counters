@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -40,4 +42,52 @@ public class Counter implements Entities {
     @OneToOne(mappedBy = "counter")
     private CounterDetail detail;
     boolean isChecking;
+
+    @Override
+    public String toString() {
+        return "Counter{" +
+                "id=" + id +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", tariff=" + tariff +
+                ", values=" + values +
+                ", dateChecking=" + dateChecking +
+                ", detail=" + detail +
+                ", isChecking=" + isChecking +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass () != o.getClass ()) return false;
+
+        Counter counter = (Counter) o;
+
+        return new EqualsBuilder ()
+                .append (isChecking, counter.isChecking)
+                .append (id, counter.id)
+                .append (type, counter.type)
+                .append (name, counter.name)
+                .append (tariff, counter.tariff)
+                .append (values, counter.values)
+                .append (dateChecking, counter.dateChecking)
+                .append (detail, counter.detail)
+                .isEquals ();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder (17, 37)
+                .append (id)
+                .append (type)
+                .append (name)
+                .append (tariff)
+                .append (values)
+                .append (dateChecking)
+                .append (detail)
+                .append (isChecking)
+                .toHashCode ();
+    }
 }

@@ -73,7 +73,7 @@ public class CounterController {
     }
 
     // http://localhost:8090/counter/newValue - POST
-    @GetMapping("/newValue")
+    @GetMapping("/addValue")
     public String newValue(Model model){
         System.out.println("Called method newHouse");
         model.addAttribute("value", new ValueDto ());
@@ -81,7 +81,7 @@ public class CounterController {
     }
 
     // http://localhost:8090/counter/newValue - POST
-    @PostMapping(value = "/newValue")
+    @PostMapping(value = "/addValue")
     public String saveHouse(ValueDto dto, Model model){
         if(valueService.save(dto)){
             model.addAttribute("values", valueRepository.findAll ());

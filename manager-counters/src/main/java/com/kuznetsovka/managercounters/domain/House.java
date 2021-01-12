@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,4 +35,39 @@ public class House implements Entities {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", region=" + region.getTitle () +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass () != o.getClass ()) return false;
+
+        House house = (House) o;
+
+        return new EqualsBuilder ()
+                .append (id, house.id)
+                .append (address, house.address)
+                .append (region, house.region)
+                .append (counters, house.counters)
+                .isEquals ();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder (17, 37)
+                .append (id)
+                .append (address)
+                .append (region)
+                .append (counters)
+                .toHashCode ();
+    }
 }

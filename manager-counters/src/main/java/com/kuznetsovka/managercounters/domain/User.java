@@ -24,4 +24,14 @@ public class User extends Person implements Entities {
     private List<House> houses;
     @Enumerated(EnumType.STRING)
     private final Role role = Role.USER;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

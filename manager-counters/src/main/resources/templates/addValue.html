@@ -21,20 +21,20 @@
 						    <input type="submit" id="submitButton" class="btn btn-success" th:value="Save">
 						    <input type="reset" id="resetButton" class="btn btn-danger" th:value="Reset"/>
 					</span>
-                    <table class="table">
+                    <table class="table" >
                         <thead>
                         <tr>
-                            <th> Type</th>
+                            <th> Name</th>
                             <th> Value</th>
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <tr th:each="instance : ${map}">-->
-<!--                            <td th:text="${instance.key}">key</td>-->
-<!--                            <td th:each="listObject : ${instance.value}">-->
-<!--                                <th:block th:number="${value}">0.0</th:block>-->
-<!--                            </td>-->
-<!--                        </tr>-->
+                        <tr th:each="instance : ${form.map}">
+                            <td th:text="${instance.key}">key</td>
+                            <td th:each="listObject : ${instance.value}">
+                                <th:block th:number="${value}">0.0</th:block>
+                            </td>
+                        </tr>
                         <tr th:each="instance,itemStat : ${map}">
                             <td>
                                 <th:block th:text="${instance.key[__${itemStat.index}__].type}"/>

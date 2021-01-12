@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ValueController {
 //                    .value (BigDecimal.valueOf (0.0))
 //                    .type (Type.values ()[i-1])
 //                    .build ();
-//            valuesForm.addValue(value);
+//            valuesForm.addValues(value);
 //        }
         valuesForm.addValues (counters);
         model.addAttribute("form", valuesForm);
