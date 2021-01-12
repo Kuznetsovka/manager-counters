@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -36,21 +35,15 @@ public class ValueController {
         model.addAttribute("user", user);
         List<Counter> counters = user.getHouses ().get (0).getCounters ();
         ValuesCreationDto valuesForm = new ValuesCreationDto();
-//        for (int i = 1; i <= Type.values ().length; i++) {
-//            ValueDto value = ValueDto.builder()
-//                    .value (BigDecimal.valueOf (0.0))
-//                    .type (Type.values ()[i-1])
-//                    .build ();
-//            valuesForm.addValues(value);
-//        }
         valuesForm.addValues (counters);
+        valueService.saveAll(valuesForm.getValues ());
         model.addAttribute("form", valuesForm);
         return "addValue";
     }
 
     @PostMapping(value = "/save")
     public String saveBooks(@ModelAttribute ValuesCreationDto form, Model model) {
-        valueService.saveAll((List<ValueDto>) form.getMap ().values ());
+        valueService.saveAll(form.getValues ());
 
         model.addAttribute("values", valueService.findAll());
         return "redirect:/manager";
