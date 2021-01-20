@@ -68,17 +68,21 @@ public class MediatorImpl implements Mediator {
     @Override
     public boolean addValues(List<ValueDto> values, String address) {
         List<Counter> counters = counterService.getCountersByHouse (houseService.findByAddress (address));
-        for (ValueDto value : values) {
+        for (ValueDto valueDto : values) {
             for (Counter counter : counters) {
-                if (value.getType ().equals (counter.getType ())){
-                    counter.setValues (Collections.singletonList (valueService.getMapper ().toValue (value)));
-                    counter.setDetail (CounterDetail.builder().oldValue (value.getValue ()).build());
+                if (valueDto.getType ().equals (counter.getType ())){
+                    Value value = valueService.getMapper ().toValue (valueDto);
+                    counter.setValues (Collections.singletonList (value));
+                    valueService.save (valueDto);
+                    CounterDetail detail = addCounterDetail (counter,counter.getTariff (), value);
+                    counter.setDetail (detail);
+                    detailService.save (detail);
                     //TODO Проверить запить деталей
                    // value.setCounter (counterService.getById (counter.getId ()));
                 }
             }
         }
-        valueService.saveAll (values);
+
         return true;
     }
 
@@ -87,12 +91,10 @@ public class MediatorImpl implements Mediator {
         for (Counter counter : counters) {
             for (Tariff tariff : tariffs) {
                 if(counter.getType ().equals (tariff.getType ())){
-                    List<Value> valueList = addValue(BigDecimal.valueOf (0.0));
-                    counter.setValues (valueList);
                     counter.setTariff (tariffService.getById (tariff.getId ()));
                     counter.setChecking (true);
                     counter.setHouse (house);
-                    detail = addCounterDetail (counter, tariff, valueList);
+                    detail = addCounterDetail (counter, tariff, Value.builder ().build ());
                     counterService.save (counter);
                     counter.setDetail (detail);
                     detailService.save (detail);
@@ -103,12 +105,12 @@ public class MediatorImpl implements Mediator {
 
     }
 
-    private CounterDetail addCounterDetail(Counter counter, Tariff tariff, List<Value> valueList) {
+    private CounterDetail addCounterDetail(Counter counter, Tariff tariff, Value value) {
         CounterDetail detail =  new CounterDetail ();
         detail.setCounter (counter);
-        detail.setOldValue (getLastValue (valueList).getValue ());
+        detail.setOldValue (value.getValue ());
         detail.setPrice (tariff.getPrice ());
-        detail.setLastDate (getLastValue (valueList).getDate ());
+        detail.setLastDate (value.getDate ());
         return detail;
     }
 
