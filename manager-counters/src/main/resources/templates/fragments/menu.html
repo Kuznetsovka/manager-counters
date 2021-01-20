@@ -13,35 +13,12 @@
         <td align="center">
             <table>
                 <tr>
-                    <td>Menu -></td>
                     <td sec:authorize="hasAnyAuthority('USER')"><a th:href="@{/manager}">Manager</a></td>
                     <td sec:authorize="hasAnyAuthority('USER')"><a th:href="@{/history}">History</a></td>
                     <td sec:authorize="hasAnyAuthority('USER')"><a th:href="@{/manager/newHouse}">Add House</a></td>
-                    <td sec:authorize="hasAnyAuthority('USER')"><a th:href="@{/counter/addValue}">Add Value</a></td>
-                    <td></td>
+                    <td sec:authorize="hasAnyAuthority('USER')"><a th:href="@{/values/create}">Add Value</a></td>
                 </tr>
             </table>
-        </td>
-        <td align="right">
-            <div sec:authorize="isAuthenticated()" align="right">
-                <div>
-                    Hello, <a th:href="@{/users/profile}"><span sec:authentication="principal.username">Bob</span></a>
-                    <span th:if="${user.houses.size() == 0}">House List is empty</span>
-                    <select th:if="${user.houses.size() > 0}" name="houses">
-                        <option th:each="house : ${user.houses}"
-                                th:value="${house.getAddress()}" th:text="${house.getAddress()}"></option>
-                    </select>
-                </div>
-                <div>
-                    <a th:href="@{/logout}">Logout</a>
-                </div>
-            </div>
-            <div sec:authorize="!isAuthenticated()" align="right">>
-                <div>
-                    Hello, Unknown. Please <a th:href="@{/login}">Login</a>
-                </div>
-
-            </div>
         </td>
     </tr>
 </table>

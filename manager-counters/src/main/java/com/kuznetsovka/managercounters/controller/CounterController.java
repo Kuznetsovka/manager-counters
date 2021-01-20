@@ -72,7 +72,7 @@ public class CounterController {
         return "addCounter";
     }
 
-    // http://localhost:8090/counter/newValue - POST
+    // http://localhost:8090/counter/newValue - GET
     @GetMapping("/addValue")
     public String newValue(Model model){
         System.out.println("Called method newHouse");

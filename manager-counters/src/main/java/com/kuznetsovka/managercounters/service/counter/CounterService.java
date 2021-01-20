@@ -1,6 +1,7 @@
 package com.kuznetsovka.managercounters.service.counter;
 
 import com.kuznetsovka.managercounters.domain.Counter;
+import com.kuznetsovka.managercounters.domain.House;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface CounterService {
     boolean saveAll(List<Counter> counters);
     Counter getById(Long id);
     List<Counter> getCountersByDto(List<CounterDto> counterDtoList);
+    List<Counter> getCountersByHouse(House house);
 }

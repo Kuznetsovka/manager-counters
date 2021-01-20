@@ -1,6 +1,7 @@
 package com.kuznetsovka.managercounters.controller;
 
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
+import com.kuznetsovka.managercounters.dto.HouseDto;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
 import com.kuznetsovka.managercounters.service.SessionObjectHolder;
 import org.springframework.http.HttpStatus;

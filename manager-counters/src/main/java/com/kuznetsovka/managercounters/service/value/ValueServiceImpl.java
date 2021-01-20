@@ -14,6 +14,11 @@ import java.util.List;
 @Service
 public class ValueServiceImpl implements ValueService {
     private final ValueRepository valueRepository;
+
+    public ValueMapper getMapper() {
+        return mapper;
+    }
+
     private final ValueMapper mapper = ValueMapper.MAPPER;
 
     public ValueServiceImpl(ValueRepository valueRepository) {
@@ -38,13 +43,17 @@ public class ValueServiceImpl implements ValueService {
 
     @Override
     @Transactional
-    public void saveAll(List<ValueDto> books) {
-        valueRepository.saveAll(mapper.toValueList (books));
+    public void saveAll(List<ValueDto> values) {
+        valueRepository.saveAll(mapper.toValueList (values));
     }
 
     @Override
     @Transactional
     public List<Value> findAll() {
         return valueRepository.findAll();
+    }
+
+    public List<Value> findAllByDto( List<ValueDto> valueDto) {
+        return mapper.toValueList (valueDto);
     }
 }

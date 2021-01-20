@@ -1,9 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add Values</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -16,6 +19,7 @@
                   th:action="@{/values/save}"
                   th:object="${form}"
                   method="post">
+                <div th:insert="~{fragments/user :: #nav-menu}"></div>
                 <fieldset>
 					<span class="pull-right">
 						    <input type="submit" id="submitButton" class="btn btn-success" th:value="Save">
@@ -24,21 +28,15 @@
                     <table class="table" >
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Old Value</th>
+                            <th>Type</th>
                             <th>Value</th>
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <tr th:each="instance : ${form.map}">-->
-<!--                            <td th:text="${instance.key}">key</td>-->
-<!--                            <td th:each="listObject : ${instance.value}">-->
-<!--                                <th:block input th:number="${value}" th:field="${value}"required>0.0</th:block>-->
-<!--                            </td>-->
-<!--                        </tr>-->
                         <tr th:each="valueDto, itemStat : ${form.values}">
-                            <td th:text="${valueDto.getType()}"/>Name</td>
-                            <td th:text="${form.oldValues[${itemStat.index}]}"/>Old Value</td>
+                            <td>
+                                <input th:name="|values[${itemStat.index}].type|" th:value="${valueDto.getType()}"/>
+                            </td>
                             <td>
                                 <input th:name="|values[${itemStat.index}].value|" th:value="${valueDto.getValue()}"/>
                             </td>

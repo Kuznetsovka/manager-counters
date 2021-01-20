@@ -9,6 +9,7 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div th:insert="~{fragments/user :: #nav-menu}"></div>
 
 <h1>Manager</h1>
 <tr th:text="*{name}">Имя</tr>
@@ -34,7 +35,7 @@
         </td>
     </tr>
 </table>
-<form th:action="@{values/create}" method="post" class="form-horizontal">
+<form th:action="@{/values/create}" method="post" class="form-horizontal">
     <button type="submit">Добавить показания счетчиков</button>
 </form>
 </body>

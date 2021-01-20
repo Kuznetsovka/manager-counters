@@ -32,20 +32,7 @@ public class UserController {
         User user = userService.findByName (principal.getName ());
         model.addAttribute("user", user);
         List<Counter> counters = user.getHouses ().get (0).getCounters ();
-
-//        List<ValueDto> values = Stream.iterate (new ValueDto (),n -> new ValueDto ())
-//                .limit(counters.size ())
-//                .collect(Collectors.toList());
-//        model.addAttribute("values", values);
-
         model.addAttribute("counters", counters);
-//        HouseDto house;
-//        if (user.getHouses ().isEmpty ()) {
-//            house = new HouseDto ();
-//        } else {
-//            house = houseService.getHouseByDto (houseService.findByUser(user));
-//        }
-//        model.addAttribute("house", house);
         return "manager";
     }
 

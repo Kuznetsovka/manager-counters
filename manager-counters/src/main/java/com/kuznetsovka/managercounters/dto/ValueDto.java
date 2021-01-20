@@ -1,5 +1,6 @@
 package com.kuznetsovka.managercounters.dto;
 
+import com.kuznetsovka.managercounters.domain.Counter;
 import com.kuznetsovka.managercounters.domain.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class ValueDto {
     private LocalDateTime date;
     private Type type;
     MeasureStrategy measureStrategy;
+    private Counter counter;
 
     public void getMeasure(){
         measureStrategy.getMeasure ();

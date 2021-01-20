@@ -26,6 +26,11 @@ public class CounterServiceImpl implements CounterService {
     }
 
     @Override
+    public List<Counter> getCountersByHouse(House house) {
+        return counterRepository.findAllByHouse(house);
+    }
+
+    @Override
     public Counter findByName(String name) {
         return null;
     }

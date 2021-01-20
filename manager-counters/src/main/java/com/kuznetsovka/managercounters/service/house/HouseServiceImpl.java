@@ -51,8 +51,13 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public HouseDto getHouseByDto(House house) {
+    public HouseDto getHouseDtoByHouse(House house) {
         return mapper.fromHouse (house);
+    }
+
+    @Override
+    public House getHouseByDto(HouseDto houseDto) {
+        return mapper.toHouse (houseDto);
     }
 
     @Override

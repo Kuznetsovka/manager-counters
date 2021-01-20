@@ -1,12 +1,12 @@
 package com.kuznetsovka.managercounters.controller;
 
 import com.kuznetsovka.managercounters.domain.Counter;
-import com.kuznetsovka.managercounters.domain.Type;
 import com.kuznetsovka.managercounters.domain.User;
 import com.kuznetsovka.managercounters.dto.EntityNotFoundResponse;
-import com.kuznetsovka.managercounters.dto.ValueDto;
+import com.kuznetsovka.managercounters.dto.HouseDto;
 import com.kuznetsovka.managercounters.dto.ValuesCreationDto;
 import com.kuznetsovka.managercounters.exception.EntityNotFoundException;
+import com.kuznetsovka.managercounters.service.mediator.Mediator;
 import com.kuznetsovka.managercounters.service.user.UserService;
 import com.kuznetsovka.managercounters.service.value.ValueService;
 import org.springframework.http.HttpStatus;
@@ -23,10 +23,19 @@ import java.util.List;
 public class ValueController {
     private final UserService userService;
     private final ValueService valueService;
+    private final Mediator mediator;
 
-    public ValueController(UserService userService, ValueService valueService) {
+    public ValueController(UserService userService, ValueService valueService, Mediator mediator) {
         this.userService = userService;
         this.valueService = valueService;
+        this.mediator = mediator;
+    }
+
+
+    @GetMapping
+    public String valueList(Model model){
+        model.addAttribute("houseDto", new HouseDto ());
+        return "addValue";
     }
 
     @GetMapping(value = "/create")
@@ -36,16 +45,13 @@ public class ValueController {
         List<Counter> counters = user.getHouses ().get (0).getCounters ();
         ValuesCreationDto valuesForm = new ValuesCreationDto();
         valuesForm.addValues (counters);
-        valueService.saveAll(valuesForm.getValues ());
         model.addAttribute("form", valuesForm);
         return "addValue";
     }
 
     @PostMapping(value = "/save")
-    public String saveBooks(@ModelAttribute ValuesCreationDto form, Model model) {
-        valueService.saveAll(form.getValues ());
-
-        model.addAttribute("values", valueService.findAll());
+    public String saveValues(@ModelAttribute ValuesCreationDto form, @RequestParam(required=false,name ="address") String address, Model model) {
+        mediator.addValues (form.getValues (),address);
         return "redirect:/manager";
     }
 

@@ -13,5 +13,6 @@ public interface HouseService {
     House getById(Long id);
     House getByDto(HouseDto houseDto);
     House findByUser(User user);
-    HouseDto getHouseByDto(House house);
+    House getHouseByDto(HouseDto houseDto);
+    HouseDto getHouseDtoByHouse(House house);
 }

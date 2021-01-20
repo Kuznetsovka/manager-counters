@@ -3,6 +3,7 @@ package com.kuznetsovka.managercounters.service.mediator;
 import com.kuznetsovka.managercounters.domain.*;
 import com.kuznetsovka.managercounters.dto.CounterDto;
 import com.kuznetsovka.managercounters.dto.HouseDto;
+import com.kuznetsovka.managercounters.dto.ValueDto;
 import com.kuznetsovka.managercounters.service.company.CompanyServiceImpl;
 import com.kuznetsovka.managercounters.service.counter.CounterServiceImpl;
 import com.kuznetsovka.managercounters.service.detail.DetailServiceImpl;
@@ -16,6 +17,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,14 +46,12 @@ public class MediatorImpl implements Mediator {
         this.detailService = detailService;
     }
 
-    @Override
     public List<Value> addValue(BigDecimal value) {
         List<Value> valueList = new LinkedList<> ();
         Value val = new Value();
         val.setValue (value);
         valueList.add (val);
         return valueList;
-        //valueService.create(value);
     }
 
     @Override
@@ -62,6 +62,23 @@ public class MediatorImpl implements Mediator {
         houseDto.setRegion (regionService.findById (regionID));
         House house = houseService.save (houseDto);
         addCounters (tariffs, counters, house);
+        return true;
+    }
+
+    @Override
+    public boolean addValues(List<ValueDto> values, String address) {
+        List<Counter> counters = counterService.getCountersByHouse (houseService.findByAddress (address));
+        for (ValueDto value : values) {
+            for (Counter counter : counters) {
+                if (value.getType ().equals (counter.getType ())){
+                    counter.setValues (Collections.singletonList (valueService.getMapper ().toValue (value)));
+                    counter.setDetail (CounterDetail.builder().oldValue (value.getValue ()).build());
+                    //TODO Проверить запить деталей
+                   // value.setCounter (counterService.getById (counter.getId ()));
+                }
+            }
+        }
+        valueService.saveAll (values);
         return true;
     }
 
